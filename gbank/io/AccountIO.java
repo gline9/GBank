@@ -1,0 +1,56 @@
+package gbank.io;
+
+import gbank.types.Account;
+import gfiles.text.xml.XMLInfo;
+import gfiles.text.xml.XMLTag;
+
+public final class AccountIO {
+	private AccountIO() {}
+
+	public static Account loadFromTag(XMLTag tag) {
+		// grab the tags from the account root tag
+		XMLTag principalTag = tag.getFirstTag("Principal");
+		XMLTag rateTag = tag.getFirstTag("Rate");
+		XMLTag compoundRateTag = tag.getFirstTag("Compound_Rate");
+		XMLTag lastCompoundTimeTag = tag.getFirstTag("Last_Compound_Time");
+
+		// grab the values from the tags
+		double principal = Double.valueOf(((XMLInfo) principalTag.getElements().get(0)).getInfo());
+		double rate = Double.valueOf(((XMLInfo) rateTag.getElements().get(0)).getInfo());
+		double compoundRate = Double.valueOf(((XMLInfo) compoundRateTag.getElements().get(0)).getInfo());
+		long lastCompoundTime = Long.valueOf(((XMLInfo) lastCompoundTimeTag.getElements().get(0)).getInfo());
+
+		// return the account with the given values
+		return new Account(principal, rate, compoundRate, lastCompoundTime);
+	}
+
+	public static XMLTag saveToTag(Account account) {
+		// grab the values to save to the tag
+		double principal = account.getBalance();
+		double rate = account.getRate();
+		double compoundRate = account.getCompoundRate();
+		long lastCompoundTime = account.getLastCompoundTime();
+
+		// create a new empty tag with title Account
+		XMLTag accountTag = new XMLTag("Account");
+
+		// add the values to the tag
+		XMLTag principalTag = new XMLTag("Principal");
+		XMLTag rateTag = new XMLTag("Rate");
+		XMLTag compoundRateTag = new XMLTag("Compound_Rate");
+		XMLTag lastCompoundTimeTag = new XMLTag("Last_Compound_Time");
+
+		principalTag.addElement(new XMLInfo(String.valueOf(principal)));
+		rateTag.addElement(new XMLInfo(String.valueOf(rate)));
+		compoundRateTag.addElement(new XMLInfo(String.valueOf(compoundRate)));
+		lastCompoundTimeTag.addElement(new XMLInfo(String.valueOf(lastCompoundTime)));
+
+		accountTag.addElement(principalTag);
+		accountTag.addElement(rateTag);
+		accountTag.addElement(compoundRateTag);
+		accountTag.addElement(lastCompoundTimeTag);
+
+		// return the account tag
+		return accountTag;
+	}
+}
