@@ -1,5 +1,6 @@
 package gbank.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -12,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -100,10 +102,13 @@ public class LogInGui extends JFrame {
 		password.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(password);
 
+		// create a pane for the buttons so they are on the same level
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BorderLayout());
+
 		// button to confirm login credentials
 		JButton confirm = new JButton("Confirm");
 		confirm.setFont(new Font(confirm.getFont().getFontName(), Font.PLAIN, 30));
-		confirm.setAlignmentX(Component.LEFT_ALIGNMENT);
 		confirm.setVisible(true);
 		confirm.addActionListener(new ActionListener() {
 
@@ -136,8 +141,16 @@ public class LogInGui extends JFrame {
 				}
 			}
 		});
-		add(confirm);
-		
+		buttonPanel.add(confirm, BorderLayout.WEST);
+
+		JButton newAccount = new JButton("New Account");
+		newAccount.setFont(new Font(newAccount.getFont().getFontName(), Font.PLAIN, 30));
+		newAccount.setVisible(true);
+		buttonPanel.add(newAccount, BorderLayout.EAST);
+
+		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(buttonPanel);
+
 		// set the button for logon to be pressed when enter is pressed.
 		getRootPane().setDefaultButton(confirm);
 
