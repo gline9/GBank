@@ -19,18 +19,18 @@ public class LogInGui extends JFrame {
 	public LogInGui() {
 		super("Gavin's Banking Software");
 		setVisible(true);
-		this.setLayout(new FlowLayout());
+		setLayout(new FlowLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// field for the user to input their username
 		JTextField username = new JTextField(20);
 		username.setVisible(true);
-		this.add(username);
+		add(username);
 
 		// field for the user to input their password
 		JPasswordField password = new JPasswordField(20);
 		password.setVisible(true);
-		this.add(password);
+		add(password);
 
 		// button to confirm login credentials
 		JButton confirm = new JButton("Confirm");
@@ -55,7 +55,7 @@ public class LogInGui extends JFrame {
 					new AccountGui(userString, passString);
 
 					// close the current window
-					LogInGui.this.dispose();
+					dispose();
 				} else {
 					// if the login credentials are not correct just clear the
 					// password field
@@ -66,8 +66,8 @@ public class LogInGui extends JFrame {
 				}
 			}
 		});
-		this.add(confirm);
+		add(confirm);
 
-		this.pack();
+		pack();
 	}
 }
