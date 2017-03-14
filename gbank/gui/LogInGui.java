@@ -2,6 +2,7 @@ package gbank.gui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -77,5 +78,11 @@ public class LogInGui extends JFrame {
 		add(confirm);
 
 		pack();
+	}
+
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
 	}
 }
