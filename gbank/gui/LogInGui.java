@@ -1,10 +1,11 @@
 package gbank.gui;
 
-import java.awt.FlowLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,24 +21,27 @@ public class LogInGui extends JFrame {
 	public LogInGui() {
 		super("Gavin's Banking Software");
 		setVisible(true);
-		setLayout(new FlowLayout());
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// field for the user to input their username
 		JTextField username = new JTextField(20);
 		username.setFont(new Font(username.getFont().getFontName(), Font.PLAIN, 30));
 		username.setVisible(true);
+		username.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(username);
 
 		// field for the user to input their password
 		JPasswordField password = new JPasswordField(20);
 		password.setFont(new Font(password.getFont().getFontName(), Font.PLAIN, 30));
 		password.setVisible(true);
+		password.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(password);
 
 		// button to confirm login credentials
 		JButton confirm = new JButton("Confirm");
 		confirm.setFont(new Font(confirm.getFont().getFontName(), Font.PLAIN, 30));
+		confirm.setAlignmentX(Component.LEFT_ALIGNMENT);
 		confirm.setVisible(true);
 		confirm.addActionListener(new ActionListener() {
 
