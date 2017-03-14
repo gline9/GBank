@@ -95,7 +95,7 @@ public class LogInGui extends JFrame {
 				}
 			}
 		});
-		
+
 		password.setVisible(true);
 		password.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(password);
@@ -137,6 +137,9 @@ public class LogInGui extends JFrame {
 			}
 		});
 		add(confirm);
+		
+		// set the button for logon to be pressed when enter is pressed.
+		getRootPane().setDefaultButton(confirm);
 
 		pack();
 	}

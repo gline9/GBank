@@ -1,11 +1,13 @@
 package gbank.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -20,14 +22,20 @@ public class AccountEditingPane extends JPanel {
 	private final User user;
 
 	private final JButton add = new JButton("Add Account");
+	private final JButton quit = new JButton("Quit");
 
 	public AccountEditingPane(HashMap<Integer, Pair<AccountPane, Account>> accounts, User user) {
+		setLayout(new BorderLayout());
 		this.accounts = accounts;
 		this.user = user;
 
 		add.addActionListener(this::addAccount);
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
-		add(add);
+		add(add, BorderLayout.WEST);
+
+		quit.addActionListener((ActionEvent event) -> ((JFrame) SwingUtilities.getRoot(this)).dispose());
+		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
+		add(quit, BorderLayout.EAST);
 
 		setVisible(true);
 	}
