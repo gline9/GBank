@@ -1,6 +1,7 @@
 package gbank.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,16 +25,19 @@ public class LogInGui extends JFrame {
 
 		// field for the user to input their username
 		JTextField username = new JTextField(20);
+		username.setFont(new Font(username.getFont().getFontName(), Font.PLAIN, 30));
 		username.setVisible(true);
 		add(username);
 
 		// field for the user to input their password
 		JPasswordField password = new JPasswordField(20);
+		password.setFont(new Font(password.getFont().getFontName(), Font.PLAIN, 30));
 		password.setVisible(true);
 		add(password);
 
 		// button to confirm login credentials
 		JButton confirm = new JButton("Confirm");
+		confirm.setFont(new Font(confirm.getFont().getFontName(), Font.PLAIN, 30));
 		confirm.setVisible(true);
 		confirm.addActionListener(new ActionListener() {
 
