@@ -1,10 +1,14 @@
 #!/bin/bash
-if [ $# != 1 ] then
+if [ $# -ne 1 ]
+then
 	echo "Usage ./linuxInstall.sh <Install location>"
-	exit
+	exit 0
 fi
 
-set location=$1
-mkdir "$1"/Accounts
-touch "$1"/Accounts/userLogins.csv
-echo "username, salt, password" > "$1"/Accounts/userLogins.csv
+location=$1
+mkdir -p $location
+mkdir $location/Accounts
+touch $location/Accounts/userLogins.csv
+echo "username, salt, password" > $location/Accounts/userLogins.csv
+
+exit 0
