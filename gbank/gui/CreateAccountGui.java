@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,17 +20,20 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import gbank.io.LogIn;
+import gbank.io.UserIO;
+import gbank.statics.FileLocations;
+import gbank.types.User;
 
-public class LogInGui extends JFrame {
-
+public class CreateAccountGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final int defaultTextColor = 0xff808080;
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
+	private final String confirmPasswordDefaultText = "Confirm Password";
 
-	public LogInGui() {
-		super("Gavin's Banking Software");
+	public CreateAccountGui() {
+		super("Create an Account");
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,6 +106,43 @@ public class LogInGui extends JFrame {
 		password.setVisible(true);
 		password.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(password);
+		
+		// field for the user to input their password
+		JPasswordField confirmP = new JPasswordField(20);
+		confirmP.setFont(new Font(confirmP.getFont().getFontName(), Font.PLAIN, 30));
+
+		// set the default text for the password field
+		confirmP.setForeground(new Color(defaultTextColor));
+		// used to show the text instead of just the * character until the user
+		// enters something
+		confirmP.setEchoChar((char) 0);
+		confirmP.setText(confirmPasswordDefaultText);
+		confirmP.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent event) {
+				Color color = confirmP.getForeground();
+				// check if the color is still the default text color
+				if (color.getRGB() == defaultTextColor) {
+					confirmP.setForeground(Color.BLACK);
+					confirmP.setText("");
+					confirmP.setEchoChar('*');
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// check if the field is empty
+				if (confirmP.getPassword().length == 0) {
+					confirmP.setForeground(new Color(defaultTextColor));
+					confirmP.setText(confirmPasswordDefaultText);
+					confirmP.setEchoChar((char) 0);
+				}
+			}
+		});
+
+		confirmP.setVisible(true);
+		confirmP.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(confirmP);
 
 		// create a pane for the buttons so they are on the same level
 		JPanel buttonPanel = new JPanel();
@@ -116,15 +158,34 @@ public class LogInGui extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				// grab username and password from the field
 				String passString = String.valueOf(password.getPassword());
+				String pass2String = String.valueOf(confirmP.getPassword());
 				String userString = username.getText();
+				
+				if (!passString.equals(pass2String)){
+					JOptionPane.showMessageDialog(null, "Passwords don't match!!");
+					return;
+				}
+				
+				boolean success = LogIn.addNewLogin(userString, passString);
 
-				// check if the login credentials are correct
-				boolean validLogin = LogIn.isValidLogin(userString, passString);
-				if (validLogin) {
-					// if correct clear the login fields
+				// if successful add the file for the user data
+				if (success) {
+					User newUser = new User();
+					try {
+						// grab the file to save to
+						File location = new File(FileLocations.getAccountInfoFile(userString));
 
-					password.setText("");
-					username.setText("");
+						// make sure all of the directories are created up to
+						// the file
+						location.getParentFile().mkdirs();
+
+						// save to the location file
+						UserIO.saveToFile(location, passString, newUser);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
 
 					// open the account gui with the given credentials
 					new AccountGui(userString, passString);
@@ -132,37 +193,18 @@ public class LogInGui extends JFrame {
 					// close the current window
 					dispose();
 				} else {
-					// if the login credentials are not correct just clear the
-					// password field
-					password.setText("");
 
 					// give the user a prompt that he logged in incorrectly
-					JOptionPane.showMessageDialog(null, "Either username or password is incorrect");
+					JOptionPane.showMessageDialog(null, "Username is already taken!!");
 				}
 			}
 		});
-		buttonPanel.add(confirm, BorderLayout.WEST);
-
-		JButton newAccount = new JButton("New Account");
-		newAccount.setFont(new Font(newAccount.getFont().getFontName(), Font.PLAIN, 30));
-		newAccount.setVisible(true);
-		newAccount.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// to create a new account open the respective gui and close the
-				// current one
-				new CreateAccountGui();
-				dispose();
-			}
-
-		});
-		buttonPanel.add(newAccount, BorderLayout.EAST);
+		buttonPanel.add(confirm, BorderLayout.EAST);
 
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(buttonPanel);
 
-		// set the button for logon to be pressed when enter is pressed.
+		// set the button for creation to be pressed when enter is pressed.
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
