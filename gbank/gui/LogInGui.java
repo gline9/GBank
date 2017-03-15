@@ -152,7 +152,7 @@ public class LogInGui extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// to create a new account open the respective gui and close the
 				// current one
-				new CreateAccountGui();
+				new CreateLoginGui();
 				dispose();
 			}
 

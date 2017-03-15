@@ -24,7 +24,7 @@ import gbank.io.UserIO;
 import gbank.statics.FileLocations;
 import gbank.types.User;
 
-public class CreateAccountGui extends JFrame {
+public class CreateLoginGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final int defaultTextColor = 0xff808080;
@@ -32,7 +32,7 @@ public class CreateAccountGui extends JFrame {
 	private final String passwordDefaultText = "Password";
 	private final String confirmPasswordDefaultText = "Confirm Password";
 
-	public CreateAccountGui() {
+	public CreateLoginGui() {
 		super("Create an Account");
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
