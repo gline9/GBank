@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,6 +20,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import gbank.io.LogIn;
+import gbank.io.UserIO;
+import gbank.statics.FileLocations;
+import gbank.types.User;
 
 public class LogInGui extends JFrame {
 
@@ -146,6 +151,39 @@ public class LogInGui extends JFrame {
 		JButton newAccount = new JButton("New Account");
 		newAccount.setFont(new Font(newAccount.getFont().getFontName(), Font.PLAIN, 30));
 		newAccount.setVisible(true);
+		newAccount.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				boolean success = LogIn.addNewLogin(username.getText(), new String(password.getPassword()));
+
+				// if successful add the file for the user data
+				User newUser = new User();
+				try {
+					// grab the file to save to
+					File location = new File(FileLocations.getAccountInfoFile(username.getText()));
+
+					// make sure all of the directories are created up to the
+					// file
+					location.getParentFile().mkdirs();
+
+					// save to the location file
+					UserIO.saveToFile(location, new String(password.getPassword()), newUser);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+
+				// once the data has been created log the user into his account
+				// open the account gui with the given credentials
+				new AccountGui(username.getText(), new String(password.getPassword()));
+
+				// close the current window
+				dispose();
+			}
+
+		});
 		buttonPanel.add(newAccount, BorderLayout.EAST);
 
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);

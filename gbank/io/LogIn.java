@@ -78,6 +78,13 @@ public final class LogIn {
 		}
 
 		users.refreshData();
+		
+		// save the file back to the drive
+		try {
+			userFile.save(new File(FileLocations.userLoginFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return true;
 	}
