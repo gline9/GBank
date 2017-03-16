@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import gbank.io.LogIn;
 
@@ -34,33 +33,8 @@ public class LogInGui extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// field for the user to input their username
-		JTextField username = new JTextField(20);
+		DefaultTextField username = new DefaultTextField(20, usernameDefaultText);
 		username.setFont(new Font(username.getFont().getFontName(), Font.PLAIN, 30));
-
-		// set the default text for the username field
-		username.setForeground(new Color(defaultTextColor));
-		username.setText(usernameDefaultText);
-		username.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				Color color = username.getForeground();
-				// check if the color is still the default text color
-				if (color.getRGB() == defaultTextColor) {
-					username.setForeground(Color.BLACK);
-					username.setText("");
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				// check if the field is empty
-				if (username.getText().trim().equals("")) {
-					username.setForeground(new Color(defaultTextColor));
-					username.setText(usernameDefaultText);
-				}
-			}
-		});
-
 		username.setVisible(true);
 		username.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(username);
