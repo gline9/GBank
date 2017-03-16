@@ -1,11 +1,12 @@
 package gbank.gui;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -21,12 +22,19 @@ public class AccountPane extends JPanel {
 
 	private final JLabel idLabel = new JLabel();
 	private final JLabel amountLabel = new JLabel();
-	private final JButton remove = new JButton();
+
+	private Color hoverColor = new Color(0xB0B0B0);
+	private Color backgroundColor;
+
+	private boolean isHovering = false;
 
 	public AccountPane(Account account, int id) {
 		this.account = account;
 		this.id = id;
 		this.setLayout(new FlowLayout());
+
+		// grab the background color
+		backgroundColor = getBackground();
 
 		setLabels();
 
@@ -36,12 +44,40 @@ public class AccountPane extends JPanel {
 		amountLabel.setFont(new Font(amountLabel.getFont().getFontName(), Font.PLAIN, 40));
 		add(amountLabel);
 
-		remove.setText("Remove");
-		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
-		remove.addActionListener((ActionEvent e) -> {
-			((AccountGui) SwingUtilities.getRoot(this)).removeAccount(this, id);
+		// add a mouse listener so we can change color when the mouse hovers
+		// over the account pane
+		addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// open the Account Gui to edit the account
+				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), AccountPane.this, account, id);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// update the flag on if component is being hovered
+				isHovering = true;
+
+				// when the mouse enters change the color to the hover color
+				AccountPane.super.setBackground(hoverColor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// update the flag on if component is being hovered
+				isHovering = false;
+				// when the mouse exists change the color to the background
+				// color
+				AccountPane.super.setBackground(backgroundColor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
 		});
-		add(remove);
 
 		setVisible(true);
 	}
@@ -63,6 +99,34 @@ public class AccountPane extends JPanel {
 	private void setLabels() {
 		idLabel.setText(String.valueOf(id));
 		amountLabel.setText(account.toString());
+	}
+
+	public Color getHoverColor() {
+		return hoverColor;
+	}
+
+	public void setHoverColor(Color hoverColor) {
+		// if hovering set the color and hover color otherwise just hover color
+		this.hoverColor = hoverColor;
+
+		if (isHovering) {
+			super.setBackground(hoverColor);
+		}
+	}
+
+	public Color getNonHoverColor() {
+		return backgroundColor;
+	}
+
+	@Override
+	public void setBackground(Color color) {
+		// if not hovering set the color and the background color otherwise just
+		// the background color
+		this.backgroundColor = color;
+
+		if (!isHovering) {
+			super.setBackground(color);
+		}
 	}
 
 }
