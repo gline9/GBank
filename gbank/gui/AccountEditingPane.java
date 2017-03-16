@@ -30,7 +30,7 @@ public class AccountEditingPane extends JPanel {
 	}
 
 	private void addAccount(ActionEvent e) {
-		new CreateAccountGui((AccountGui) SwingUtilities.getRoot(this));
+		new CreateAccountGui((UserGui) SwingUtilities.getRoot(this));
 	}
 
 }
