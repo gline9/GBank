@@ -18,7 +18,9 @@ import gcore.units.TimeUnit;
 public class AccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
-	private final JLabel details;
+	private final JLabel balance;
+	private final JLabel interest;
+	private final JLabel compounds;
 
 	private final Timer updateTimer;
 
@@ -35,13 +37,20 @@ public class AccountGui extends JDialog {
 		this.id = id;
 
 		// display the details of the account
-		details = new JLabel();
+		balance = new JLabel();
+		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
+		add(balance);
+		
+		interest = new JLabel();
+		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
+		add(interest);
+		
+		compounds = new JLabel();
+		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
+		add(compounds);
 
-		// set the text for the label
+		// set the text for the labels
 		setDetails();
-
-		details.setFont(new Font(details.getFont().getFontName(), Font.PLAIN, 40));
-		add(details);
 
 		JButton remove = new JButton("Remove");
 		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
@@ -68,7 +77,9 @@ public class AccountGui extends JDialog {
 	}
 
 	private void setDetails() {
-		details.setText(String.format("%d: %s", id, account.toString()));
+		balance.setText(String.format("%d: %s", id, account.toString()));
+		interest.setText(String.format("Interest Rate: %.2f%%", 100*account.getRate()));
+		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
 	}
 
 	@Override
