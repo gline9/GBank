@@ -1,158 +1,103 @@
 package gbank.gui;
 
-import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import gbank.io.UserIO;
-import gbank.statics.FileLocations;
 import gbank.types.Account;
-import gbank.types.User;
-import gcore.tuples.Pair;
 import gcore.units.FrequencyUnit;
 import gcore.units.TimeUnit;
 
-public class AccountGui extends JFrame {
+public class AccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
-	private final User user;
-
-	private final String username;
-	private final String password;
-
-	private final HashMap<Integer, Pair<AccountPane, Account>> accountPanes = new HashMap<>();
+	private final JLabel balance;
+	private final JLabel interest;
+	private final JLabel compounds;
 
 	private final Timer updateTimer;
 
-	public AccountGui(String username, String password) {
+	private final Account account;
+	private final int id;
 
-		// save the username and password fields
-		this.username = username;
-		this.password = password;
-
-		// load the user file to the user field.
-		File file = new File(FileLocations.getAccountInfoFile(username));
-
-		User user = null;
-
-		try {
-			user = UserIO.loadFromFile(file, password);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-
-		this.user = user;
-
-		// set normal window conditions
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public AccountGui(UserGui parent, AccountPane accountPane, Account account, int id) {
+		super(parent, true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		// add the account components for each account the user has.
-		for (Pair<Integer, Account> account : user.getAccounts()) {
-			AccountPane pane = new AccountPane(account.getSecond(), account.getFirst());
-			pane.setAlignmentX(Component.LEFT_ALIGNMENT);
-			add(pane);
-			accountPanes.put(account.getFirst(), new Pair<>(pane, account.getSecond()));
-		}
+		// initialize the final variables
+		this.account = account;
+		this.id = id;
 
-		// add the account editing pane
-		AccountEditingPane edit = new AccountEditingPane();
-		edit.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(edit);
+		// display the details of the account
+		balance = new JLabel();
+		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
+		add(balance);
+		
+		interest = new JLabel();
+		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
+		add(interest);
+		
+		compounds = new JLabel();
+		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
+		add(compounds);
 
-		// add a listener for new components in order to resize the window
-		// appropriately.
-		addContainerListener(new ContainerListener() {
+		// set the text for the labels
+		setDetails();
 
-			@Override
-			public void componentAdded(ContainerEvent event) {
-				validate();
-				pack();
-				System.out.println("added");
-			}
+		JButton remove = new JButton("Remove");
+		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
+		remove.addActionListener((ActionEvent e) -> {
+			// remove the account from the window
+			parent.removeAccount(accountPane, id);
 
-			@Override
-			public void componentRemoved(ContainerEvent event) {}
+			// close the gui as the account is gone
+			dispose();
+
 		});
-
-		// set the window to visible and pack its components
-		pack();
-		setVisible(true);
-		setResizable(false);
-
-		// set up an auto repainting routine
+		add(remove);
+		
+		// add a repaint timer
 		int fps = 60;
 		updateTimer = new Timer(
 				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS),
 				(ActionEvent e) -> repaint());
 		updateTimer.start();
-	}
-
-	public void addAccount(Account a) {
-		int id = user.addAccount(a);
-
-		// create a new account pane
-		AccountPane pane = new AccountPane(a, id);
-		pane.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-		// add the account pane to the main window
-		int location = accountPanes.size();
-
-		// add the account to the list of accounts
-		accountPanes.put(id, new Pair<>(pane, a));
 		
-		add(pane, location);
-		validate();
-		setResizable(true);
 		pack();
 		setResizable(false);
+		setVisible(true);
 	}
 
-	public void removeAccount(AccountPane pane, int id) {
-
-		// remove from the window
-		this.remove(pane);
-		validate();
-		setResizable(true);
-		pack();
-		setResizable(false);
-
-		// remove from the user
-		user.removeAccount(id);
+	private void setDetails() {
+		balance.setText(String.format("%d: %s", id, account.toString()));
+		interest.setText(String.format("Interest Rate: %.2f%%", 100*account.getRate()));
+		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
 	}
 
 	@Override
 	public void dispose() {
-		// stop the repainting routine
+		// stop the repaint timer
 		updateTimer.stop();
 
-		try {
-			// if the user file has been edited, re-save to the disk.
-			if (user.isDirty()) {
-				// save the user's account information file
-				File file = new File(FileLocations.getAccountInfoFile(username));
-				UserIO.saveToFile(file, password, user);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		// call the super's dispose method
+		// dispose the main window
 		super.dispose();
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		// update the text
+		setDetails();
+
+		// paint the main window
+		super.paint(g);
 	}
 
 }
