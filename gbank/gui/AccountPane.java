@@ -51,7 +51,7 @@ public class AccountPane extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// open the Account Gui to edit the account
-				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), AccountPane.this, id);
+				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), AccountPane.this, account, id);
 			}
 
 			@Override
