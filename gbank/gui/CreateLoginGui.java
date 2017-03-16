@@ -1,13 +1,10 @@
 package gbank.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -16,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 
 import gbank.io.LogIn;
 import gbank.io.UserIO;
@@ -45,75 +41,15 @@ public class CreateLoginGui extends JFrame {
 		add(username);
 
 		// field for the user to input their password
-		JPasswordField password = new JPasswordField(20);
+		DefaultPasswordField password = new DefaultPasswordField(20, passwordDefaultText);
 		password.setFont(new Font(password.getFont().getFontName(), Font.PLAIN, 30));
-
-		// set the default text for the password field
-		password.setForeground(new Color(defaultTextColor));
-		// used to show the text instead of just the * character until the user
-		// enters something
-		password.setEchoChar((char) 0);
-		password.setText(passwordDefaultText);
-		password.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				Color color = password.getForeground();
-				// check if the color is still the default text color
-				if (color.getRGB() == defaultTextColor) {
-					password.setForeground(Color.BLACK);
-					password.setText("");
-					password.setEchoChar('*');
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				// check if the field is empty
-				if (password.getPassword().length == 0) {
-					password.setForeground(new Color(defaultTextColor));
-					password.setText(passwordDefaultText);
-					password.setEchoChar((char) 0);
-				}
-			}
-		});
-
 		password.setVisible(true);
 		password.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(password);
 
 		// field for the user to input their password
-		JPasswordField confirmP = new JPasswordField(20);
+		DefaultPasswordField confirmP = new DefaultPasswordField(20, confirmPasswordDefaultText);
 		confirmP.setFont(new Font(confirmP.getFont().getFontName(), Font.PLAIN, 30));
-
-		// set the default text for the password field
-		confirmP.setForeground(new Color(defaultTextColor));
-		// used to show the text instead of just the * character until the user
-		// enters something
-		confirmP.setEchoChar((char) 0);
-		confirmP.setText(confirmPasswordDefaultText);
-		confirmP.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent event) {
-				Color color = confirmP.getForeground();
-				// check if the color is still the default text color
-				if (color.getRGB() == defaultTextColor) {
-					confirmP.setForeground(Color.BLACK);
-					confirmP.setText("");
-					confirmP.setEchoChar('*');
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				// check if the field is empty
-				if (confirmP.getPassword().length == 0) {
-					confirmP.setForeground(new Color(defaultTextColor));
-					confirmP.setText(confirmPasswordDefaultText);
-					confirmP.setEchoChar((char) 0);
-				}
-			}
-		});
-
 		confirmP.setVisible(true);
 		confirmP.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(confirmP);
