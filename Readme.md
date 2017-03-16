@@ -31,3 +31,5 @@
       1. **Interest Rate** is the amount of interest in absolute terms, for instance 5% would be entered as .05
       1. **Compounds per Year** is how often in a year your account compounds, for instance you would enter 12 for compounding monthly.
    1. Click the **Confirm** button and your account will be added.
+1. Remove an account from the list
+   1. Just click the **Remove** button next to the account you want to remove.
