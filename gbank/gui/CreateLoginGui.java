@@ -97,7 +97,7 @@ public class CreateLoginGui extends JFrame {
 					}
 
 					// open the account gui with the given credentials
-					new AccountGui(userString, passString);
+					new UserGui(userString, passString);
 
 					// close the current window
 					dispose();

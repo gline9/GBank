@@ -65,7 +65,7 @@ public class AccountPane extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// for now set the default action to remove the account
-				((AccountGui) SwingUtilities.getRoot(AccountPane.this)).removeAccount(AccountPane.this, id);
+				((UserGui) SwingUtilities.getRoot(AccountPane.this)).removeAccount(AccountPane.this, id);
 			}
 
 			@Override

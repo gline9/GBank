@@ -15,7 +15,7 @@ import gbank.types.Account;
 public class CreateAccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
-	public CreateAccountGui(AccountGui parent) {
+	public CreateAccountGui(UserGui parent) {
 		super(parent, true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 

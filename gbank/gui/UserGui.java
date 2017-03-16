@@ -20,7 +20,7 @@ import gcore.tuples.Pair;
 import gcore.units.FrequencyUnit;
 import gcore.units.TimeUnit;
 
-public class AccountGui extends JFrame {
+public class UserGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private final User user;
@@ -32,7 +32,7 @@ public class AccountGui extends JFrame {
 
 	private final Timer updateTimer;
 
-	public AccountGui(String username, String password) {
+	public UserGui(String username, String password) {
 
 		// save the username and password fields
 		this.username = username;
