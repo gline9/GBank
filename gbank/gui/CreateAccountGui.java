@@ -19,19 +19,19 @@ public class CreateAccountGui extends JDialog {
 		super(parent, true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-		DefaultTextField balance = new DefaultTextField(10, "Principal Balance");
+		DefaultTextField balance = new DefaultTextField(20, "Principal Balance");
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 30));
 		balance.setVisible(true);
 		balance.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(balance);
 
-		DefaultTextField interest = new DefaultTextField(10, "Interest Rate");
+		DefaultTextField interest = new DefaultTextField(20, "Interest Rate");
 		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 30));
 		interest.setVisible(true);
 		interest.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(interest);
 
-		DefaultTextField compound = new DefaultTextField(10, "Compounds per Year");
+		DefaultTextField compound = new DefaultTextField(20, "Compounds per Year");
 		compound.setFont(new Font(compound.getFont().getFontName(), Font.PLAIN, 30));
 		compound.setVisible(true);
 		compound.setAlignmentX(Component.LEFT_ALIGNMENT);
