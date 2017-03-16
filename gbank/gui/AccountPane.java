@@ -23,8 +23,10 @@ public class AccountPane extends JPanel {
 	private final JLabel idLabel = new JLabel();
 	private final JLabel amountLabel = new JLabel();
 
-	private final Color hoverColor = new Color(0xB0B0B0);
-	private final Color backgroundColor;
+	private Color hoverColor = new Color(0xB0B0B0);
+	private Color backgroundColor;
+
+	private boolean isHovering = false;
 
 	public AccountPane(Account account, int id) {
 		this.account = account;
@@ -47,26 +49,31 @@ public class AccountPane extends JPanel {
 		addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseClicked(MouseEvent arg0) {}
+			public void mouseClicked(MouseEvent arg0) {
+				// open the Account Gui to edit the account
+				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), AccountPane.this, id);
+			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
+				// update the flag on if component is being hovered
+				isHovering = true;
+
 				// when the mouse enters change the color to the hover color
-				setBackground(hoverColor);
+				AccountPane.super.setBackground(hoverColor);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
+				// update the flag on if component is being hovered
+				isHovering = false;
 				// when the mouse exists change the color to the background
 				// color
-				setBackground(backgroundColor);
+				AccountPane.super.setBackground(backgroundColor);
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// for now set the default action to remove the account
-				((UserGui) SwingUtilities.getRoot(AccountPane.this)).removeAccount(AccountPane.this, id);
-			}
+			public void mousePressed(MouseEvent arg0) {}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
@@ -92,6 +99,34 @@ public class AccountPane extends JPanel {
 	private void setLabels() {
 		idLabel.setText(String.valueOf(id));
 		amountLabel.setText(account.toString());
+	}
+
+	public Color getHoverColor() {
+		return hoverColor;
+	}
+
+	public void setHoverColor(Color hoverColor) {
+		// if hovering set the color and hover color otherwise just hover color
+		this.hoverColor = hoverColor;
+
+		if (isHovering) {
+			super.setBackground(hoverColor);
+		}
+	}
+
+	public Color getNonHoverColor() {
+		return backgroundColor;
+	}
+
+	@Override
+	public void setBackground(Color color) {
+		// if not hovering set the color and the background color otherwise just
+		// the background color
+		this.backgroundColor = color;
+
+		if (!isHovering) {
+			super.setBackground(color);
+		}
 	}
 
 }
