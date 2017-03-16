@@ -68,12 +68,13 @@ public class AccountGui extends JFrame {
 		}
 
 		// add the account editing pane
-		AccountEditingPane edit = new AccountEditingPane(accountPanes, user);
+		AccountEditingPane edit = new AccountEditingPane();
 		edit.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(edit);
-		
-		// add a listener for new components in order to resize the window appropriately.
-		addContainerListener(new ContainerListener(){
+
+		// add a listener for new components in order to resize the window
+		// appropriately.
+		addContainerListener(new ContainerListener() {
 
 			@Override
 			public void componentAdded(ContainerEvent event) {
@@ -85,7 +86,7 @@ public class AccountGui extends JFrame {
 			@Override
 			public void componentRemoved(ContainerEvent event) {}
 		});
-		
+
 		// set the window to visible and pack its components
 		pack();
 		setVisible(true);
@@ -94,28 +95,40 @@ public class AccountGui extends JFrame {
 		// set up an auto repainting routine
 		int fps = 60;
 		updateTimer = new Timer(
-				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS)
-				, (ActionEvent e) -> repaint());
+				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS),
+				(ActionEvent e) -> repaint());
 		updateTimer.start();
 	}
-	
-	public void addAccount(AccountPane pane, int id){
-		add(pane, accountPanes.size());
+
+	public void addAccount(Account a) {
+		int id = user.addAccount(a);
+
+		// create a new account pane
+		AccountPane pane = new AccountPane(a, id);
+		pane.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		// add the account pane to the main window
+		int location = accountPanes.size();
+
+		// add the account to the list of accounts
+		accountPanes.put(id, new Pair<>(pane, a));
+		
+		add(pane, location);
 		validate();
 		setResizable(true);
 		pack();
 		setResizable(false);
 	}
-	
-	public void removeAccount(AccountPane pane, int id){
-		
+
+	public void removeAccount(AccountPane pane, int id) {
+
 		// remove from the window
 		this.remove(pane);
 		validate();
 		setResizable(true);
 		pack();
 		setResizable(false);
-		
+
 		// remove from the user
 		user.removeAccount(id);
 	}
@@ -127,7 +140,7 @@ public class AccountGui extends JFrame {
 
 		try {
 			// if the user file has been edited, re-save to the disk.
-			if (user.isDirty()){
+			if (user.isDirty()) {
 				// save the user's account information file
 				File file = new File(FileLocations.getAccountInfoFile(username));
 				UserIO.saveToFile(file, password, user);
