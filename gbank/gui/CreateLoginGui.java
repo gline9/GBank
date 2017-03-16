@@ -21,8 +21,7 @@ import gbank.types.User;
 
 public class CreateLoginGui extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	private final int defaultTextColor = 0xff808080;
+	
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
 	private final String confirmPasswordDefaultText = "Confirm Password";
