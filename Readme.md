@@ -1,6 +1,6 @@
-##GBank
+## GBank
 
-###Installation Details
+### Installation Details
 * Download the newest release from GitHub
 * Run the linuxInstall.sh script in the command line with arguments of where it should install
  if this doesn't work try running the command chmod +x linuxInstall.sh before running it again.
