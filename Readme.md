@@ -9,10 +9,10 @@
  
 ### Compilation
 * **Required Libraries**
- * `GCore`
- * `GFiles`
- * `GEncode`
- * `GMath`
+  * `GCore`
+  * `GFiles`
+  * `GEncode`
+  * `GMath`
 * Required libraries can be found in the `GLibrary` repository.
 * To compile, compile the libraries with the source code into one file. The main method for the program
  is located in `gbank.start.GBankStart.java`.
