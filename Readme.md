@@ -27,11 +27,14 @@
    1. Sign on to your account if you aren't already in it.
    1. Click the **Add Account** button
    1. Enter your account details.
+      1. **Account Name** is the name you would like to give the account, if left blank it will default to the account id.
       1. **Principal Balance** is how much money you have in the account.
       1. **Interest Rate** is the amount of interest in absolute terms, for instance 5% would be entered as .05
       1. **Compounds per Year** is how often in a year your account compounds, for instance you would enter 12 for compounding monthly.
    1. Click the **Confirm** button and your account will be added.
 1. View account details
    1. Click on the account that you want the details of.
-   1. A window will open up showing you the balance, interest rate, and how often the account is compounded
+   1. A window will open up showing you the name, balance, interest rate, and how often the account is compounded
+   1. To change the name of the account click the **&#9998;** button, enter in the new name of the account in the 
+    new field, and click the **&#10003;** button to save the value.
    1. To remove the account just click the **Remove** button at the bottom of the screen.

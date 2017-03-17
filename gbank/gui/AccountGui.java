@@ -1,5 +1,6 @@
 package gbank.gui;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -25,28 +26,44 @@ public class AccountGui extends JDialog {
 	private final Timer updateTimer;
 
 	private final Account account;
-	private final int id;
 
 	public AccountGui(UserGui parent, AccountPane accountPane, Account account, int id) {
-		super(parent, true);
+		super(parent, "Account Details", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// initialize the final variables
 		this.account = account;
-		this.id = id;
 
 		// display the details of the account
+		String name = account.getName();
+		EditableLabel nameLabel = new EditableLabel(name.equals("") ? String.valueOf(id) : name, (String input) -> {
+			if (!input.equals(account.getName())) {
+				account.setName(input);
+
+				// update the gui
+				accountPane.setLabels();
+				parent.guiEdited();
+			}
+
+		});
+		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
+		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(nameLabel);
+
 		balance = new JLabel();
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
+		balance.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(balance);
-		
+
 		interest = new JLabel();
 		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
+		interest.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(interest);
-		
+
 		compounds = new JLabel();
 		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
+		compounds.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(compounds);
 
 		// set the text for the labels
@@ -62,23 +79,24 @@ public class AccountGui extends JDialog {
 			dispose();
 
 		});
+		remove.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(remove);
-		
+
 		// add a repaint timer
 		int fps = 60;
 		updateTimer = new Timer(
 				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS),
 				(ActionEvent e) -> repaint());
 		updateTimer.start();
-		
+
 		pack();
 		setResizable(false);
 		setVisible(true);
 	}
 
 	private void setDetails() {
-		balance.setText(String.format("%d: %s", id, account.toString()));
-		interest.setText(String.format("Interest Rate: %.2f%%", 100*account.getRate()));
+		balance.setText(String.format("Balance: %s", account.toString()));
+		interest.setText(String.format("Interest Rate: %.2f%%", 100 * account.getRate()));
 		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
 	}
 

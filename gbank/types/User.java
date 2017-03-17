@@ -35,6 +35,9 @@ public class User {
 
 		// add account with the current id
 		accounts.add(new Pair<>(nextID, account));
+		
+		// set the user as the owner of the account
+		account.setOwner(this);
 
 		// return the id of the account added and increment counter
 		return nextID++;
