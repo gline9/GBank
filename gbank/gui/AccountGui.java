@@ -26,7 +26,6 @@ public class AccountGui extends JDialog {
 	private final Timer updateTimer;
 
 	private final Account account;
-	private final int id;
 
 	public AccountGui(UserGui parent, AccountPane accountPane, Account account, int id) {
 		super(parent, "Account Details", true);
@@ -35,19 +34,18 @@ public class AccountGui extends JDialog {
 
 		// initialize the final variables
 		this.account = account;
-		this.id = id;
 
 		// display the details of the account
 		String name = account.getName();
-		EditableLabel nameLabel = new EditableLabel(name.equals("") ? String.valueOf(id) : name, (String input)-> {
-			if (!input.equals(account.getName())){
+		EditableLabel nameLabel = new EditableLabel(name.equals("") ? String.valueOf(id) : name, (String input) -> {
+			if (!input.equals(account.getName())) {
 				account.setName(input);
-				
+
 				// update the gui
 				accountPane.setLabels();
 				parent.guiEdited();
 			}
-			
+
 		});
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
 		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -97,7 +95,6 @@ public class AccountGui extends JDialog {
 	}
 
 	private void setDetails() {
-		String name = account.getName();
 		balance.setText(String.format("Balance: %s", account.toString()));
 		interest.setText(String.format("Interest Rate: %.2f%%", 100 * account.getRate()));
 		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
