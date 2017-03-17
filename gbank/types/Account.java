@@ -4,6 +4,8 @@ import gcore.units.TimeUnit;
 
 public class Account {
 
+	private String name = "";
+
 	/**
 	 * stores the balance before capitalization
 	 */
@@ -183,6 +185,14 @@ public class Account {
 		// return how much was actually withdrawn
 		return amount;
 
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String toString() {

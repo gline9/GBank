@@ -13,15 +13,22 @@ public final class AccountIO {
 		XMLTag rateTag = tag.getFirstTag("Rate");
 		XMLTag compoundRateTag = tag.getFirstTag("Compound_Rate");
 		XMLTag lastCompoundTimeTag = tag.getFirstTag("Last_Compound_Time");
+		XMLTag nameTag = tag.getFirstTag("Name");
 
 		// grab the values from the tags
 		double principal = Double.valueOf(((XMLInfo) principalTag.getElements().get(0)).getInfo());
 		double rate = Double.valueOf(((XMLInfo) rateTag.getElements().get(0)).getInfo());
 		double compoundRate = Double.valueOf(((XMLInfo) compoundRateTag.getElements().get(0)).getInfo());
 		long lastCompoundTime = Long.valueOf(((XMLInfo) lastCompoundTimeTag.getElements().get(0)).getInfo());
+		String name = "";
+		if (nameTag != null) {
+			name = ((XMLInfo) nameTag.getElements().get(0)).getInfo();
+		}
 
 		// return the account with the given values
-		return new Account(principal, rate, compoundRate, lastCompoundTime);
+		Account account = new Account(principal, rate, compoundRate, lastCompoundTime);
+		account.setName(name);
+		return account;
 	}
 
 	public static XMLTag saveToTag(Account account) {
@@ -30,6 +37,7 @@ public final class AccountIO {
 		double rate = account.getRate();
 		double compoundRate = account.getCompoundRate();
 		long lastCompoundTime = account.getLastCompoundTime();
+		String name = account.getName();
 
 		// create a new empty tag with title Account
 		XMLTag accountTag = new XMLTag("Account");
@@ -44,6 +52,12 @@ public final class AccountIO {
 		rateTag.addElement(new XMLInfo(String.valueOf(rate)));
 		compoundRateTag.addElement(new XMLInfo(String.valueOf(compoundRate)));
 		lastCompoundTimeTag.addElement(new XMLInfo(String.valueOf(lastCompoundTime)));
+		
+		if (!name.equals("")){
+			XMLTag nameTag = new XMLTag("Name");
+			nameTag.addElement(new XMLInfo(name));
+			accountTag.addElement(nameTag);
+		}
 
 		accountTag.addElement(principalTag);
 		accountTag.addElement(rateTag);
