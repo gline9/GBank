@@ -28,7 +28,7 @@ public class AccountGui extends JDialog {
 	private final int id;
 
 	public AccountGui(UserGui parent, AccountPane accountPane, Account account, int id) {
-		super(parent, true);
+		super(parent, "Account Details", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

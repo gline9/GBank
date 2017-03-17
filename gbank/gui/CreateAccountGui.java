@@ -16,7 +16,7 @@ public class CreateAccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	public CreateAccountGui(UserGui parent) {
-		super(parent, true);
+		super(parent, "Create New Account", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		DefaultTextField balance = new DefaultTextField(20, "Principal Balance");

@@ -33,6 +33,7 @@ public class UserGui extends JFrame {
 	private final Timer updateTimer;
 
 	public UserGui(String username, String password) {
+		super("Gavin's Banking Software");
 
 		// save the username and password fields
 		this.username = username;
@@ -112,7 +113,7 @@ public class UserGui extends JFrame {
 
 		// add the account to the list of accounts
 		accountPanes.put(id, new Pair<>(pane, a));
-		
+
 		add(pane, location);
 		validate();
 		setResizable(true);
