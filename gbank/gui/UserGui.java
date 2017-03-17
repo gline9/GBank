@@ -132,6 +132,9 @@ public class UserGui extends JFrame {
 
 		// remove from the user
 		user.removeAccount(id);
+		
+		// remove from the list of account panes
+		accountPanes.remove(id);
 	}
 
 	@Override

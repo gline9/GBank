@@ -1,5 +1,6 @@
 package gbank.gui;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -45,18 +46,22 @@ public class AccountGui extends JDialog {
 			
 		});
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
+		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(nameLabel);
 
 		balance = new JLabel();
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
+		balance.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(balance);
 
 		interest = new JLabel();
 		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
+		interest.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(interest);
 
 		compounds = new JLabel();
 		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
+		compounds.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(compounds);
 
 		// set the text for the labels
@@ -72,6 +77,7 @@ public class AccountGui extends JDialog {
 			dispose();
 
 		});
+		remove.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(remove);
 
 		// add a repaint timer

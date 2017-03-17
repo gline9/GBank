@@ -1,12 +1,13 @@
 package gbank.gui;
 
-import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,11 +23,11 @@ public class EditableLabel extends JPanel {
 	private boolean isEditing = false;
 
 	public EditableLabel(String text, Consumer<String> setText) {
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.text = new JLabel(text);
 		this.field = new JTextField(text);
 
-		add(this.text, BorderLayout.WEST);
+		add(this.text);
 
 		String pencil = "\u270E";
 		String check = "\u2713";
@@ -56,7 +57,7 @@ public class EditableLabel extends JPanel {
 			}
 
 		});
-		add(edit, BorderLayout.EAST);
+		add(edit);
 
 		setVisible(true);
 
@@ -75,11 +76,11 @@ public class EditableLabel extends JPanel {
 		if (isEditing) {
 			// if we are editing put in the JTextField
 			remove(text);
-			add(field, BorderLayout.WEST);
+			add(field, 0);
 		} else {
 			// otherwise put in the JLabel
 			remove(field);
-			add(text, BorderLayout.WEST);
+			add(text, 0);
 		}
 		validate();
 		repaint();
