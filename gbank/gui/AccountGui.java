@@ -37,6 +37,16 @@ public class AccountGui extends JDialog {
 		this.id = id;
 
 		// display the details of the account
+		String name = account.getName();
+		EditableLabel nameLabel = new EditableLabel(name.equals("") ? String.valueOf(id) : name, (String input)-> {
+			if (!input.equals(account.getName())){
+				account.setName(input);
+			}
+			
+		});
+		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
+		add(nameLabel);
+
 		balance = new JLabel();
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
 		add(balance);
@@ -78,7 +88,7 @@ public class AccountGui extends JDialog {
 
 	private void setDetails() {
 		String name = account.getName();
-		balance.setText(String.format("%s: %s", name.equals("") ? String.valueOf(id) : name, account.toString()));
+		balance.setText(String.format("Balance: %s", account.toString()));
 		interest.setText(String.format("Interest Rate: %.2f%%", 100 * account.getRate()));
 		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
 	}

@@ -6,6 +6,8 @@ public class Account {
 
 	private String name = "";
 
+	private User owner = null;
+
 	/**
 	 * stores the balance before capitalization
 	 */
@@ -148,6 +150,7 @@ public class Account {
 	 * @since Aug 16, 2016
 	 */
 	public void deposit(double amount) {
+		setDirty();
 		// capitalize the account so the principal is up to date
 		capitalize();
 
@@ -165,6 +168,7 @@ public class Account {
 	 * @since Aug 16, 2016
 	 */
 	public double withdraw(double amount) {
+		setDirty();
 		// capitalize the account so the principal is up to date
 		capitalize();
 
@@ -192,7 +196,17 @@ public class Account {
 	}
 
 	public void setName(String name) {
+		setDirty();
 		this.name = name;
+	}
+
+	protected void setOwner(User user) {
+		this.owner = user;
+	}
+
+	public void setDirty() {
+		if (owner != null)
+			owner.setDirty();
 	}
 
 	public String toString() {
