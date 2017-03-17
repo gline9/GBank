@@ -115,26 +115,33 @@ public class UserGui extends JFrame {
 		accountPanes.put(id, new Pair<>(pane, a));
 
 		add(pane, location);
-		validate();
-		setResizable(true);
-		pack();
-		setResizable(false);
+		guiEdited();
 	}
 
 	public void removeAccount(AccountPane pane, int id) {
 
 		// remove from the window
 		this.remove(pane);
+		guiEdited();
+
+		// remove from the user
+		user.removeAccount(id);
+
+		// remove from the list of account panes
+		accountPanes.remove(id);
+	}
+
+	/**
+	 * use this method if you change one of the components of the gui, this will
+	 * re-scale as necessary
+	 * 
+	 * @since Mar 16, 2017
+	 */
+	public void guiEdited() {
 		validate();
 		setResizable(true);
 		pack();
 		setResizable(false);
-
-		// remove from the user
-		user.removeAccount(id);
-		
-		// remove from the list of account panes
-		accountPanes.remove(id);
 	}
 
 	@Override

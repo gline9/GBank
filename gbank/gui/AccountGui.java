@@ -42,6 +42,10 @@ public class AccountGui extends JDialog {
 		EditableLabel nameLabel = new EditableLabel(name.equals("") ? String.valueOf(id) : name, (String input)-> {
 			if (!input.equals(account.getName())){
 				account.setName(input);
+				
+				// update the gui
+				accountPane.setLabels();
+				parent.guiEdited();
 			}
 			
 		});
