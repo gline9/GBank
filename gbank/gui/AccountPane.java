@@ -1,7 +1,7 @@
 package gbank.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -31,7 +31,7 @@ public class AccountPane extends JPanel {
 	public AccountPane(Account account, int id) {
 		this.account = account;
 		this.id = id;
-		this.setLayout(new FlowLayout());
+		this.setLayout(new BorderLayout());
 
 		// grab the background color
 		backgroundColor = getBackground();
@@ -39,10 +39,10 @@ public class AccountPane extends JPanel {
 		setLabels();
 
 		idLabel.setFont(new Font(idLabel.getFont().getFontName(), Font.PLAIN, 40));
-		add(idLabel);
+		add(idLabel, BorderLayout.WEST);
 
 		amountLabel.setFont(new Font(amountLabel.getFont().getFontName(), Font.PLAIN, 40));
-		add(amountLabel);
+		add(amountLabel, BorderLayout.EAST);
 
 		// add a mouse listener so we can change color when the mouse hovers
 		// over the account pane
@@ -96,8 +96,9 @@ public class AccountPane extends JPanel {
 	 * 
 	 * @since Mar 13, 2017
 	 */
-	private void setLabels() {
-		idLabel.setText(String.valueOf(id));
+	public void setLabels() {
+		String name = account.getName();
+		idLabel.setText(name.equals("") ? String.valueOf(id) : name);
 		amountLabel.setText(account.toString());
 	}
 
