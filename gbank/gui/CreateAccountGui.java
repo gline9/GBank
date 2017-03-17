@@ -19,6 +19,12 @@ public class CreateAccountGui extends JDialog {
 		super(parent, "Create New Account", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+		DefaultTextField name = new DefaultTextField(20, "Account Name");
+		name.setFont(new Font(name.getFont().getFontName(), Font.PLAIN, 30));
+		name.setVisible(true);
+		name.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(name);
+
 		DefaultTextField balance = new DefaultTextField(20, "Principal Balance");
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 30));
 		balance.setVisible(true);
@@ -72,6 +78,7 @@ public class CreateAccountGui extends JDialog {
 
 				// put it into an account
 				Account account = new Account(principal, rate, compoundTime);
+				account.setName(name.getText());
 				parent.addAccount(account);
 
 				// close the current window

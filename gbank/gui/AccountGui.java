@@ -40,11 +40,11 @@ public class AccountGui extends JDialog {
 		balance = new JLabel();
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
 		add(balance);
-		
+
 		interest = new JLabel();
 		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
 		add(interest);
-		
+
 		compounds = new JLabel();
 		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
 		add(compounds);
@@ -63,22 +63,23 @@ public class AccountGui extends JDialog {
 
 		});
 		add(remove);
-		
+
 		// add a repaint timer
 		int fps = 60;
 		updateTimer = new Timer(
 				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS),
 				(ActionEvent e) -> repaint());
 		updateTimer.start();
-		
+
 		pack();
 		setResizable(false);
 		setVisible(true);
 	}
 
 	private void setDetails() {
-		balance.setText(String.format("%d: %s", id, account.toString()));
-		interest.setText(String.format("Interest Rate: %.2f%%", 100*account.getRate()));
+		String name = account.getName();
+		balance.setText(String.format("%s: %s", name.equals("") ? String.valueOf(id) : name, account.toString()));
+		interest.setText(String.format("Interest Rate: %.2f%%", 100 * account.getRate()));
 		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
 	}
 

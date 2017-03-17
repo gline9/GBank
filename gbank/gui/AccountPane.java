@@ -97,7 +97,8 @@ public class AccountPane extends JPanel {
 	 * @since Mar 13, 2017
 	 */
 	private void setLabels() {
-		idLabel.setText(String.valueOf(id));
+		String name = account.getName();
+		idLabel.setText(name.equals("") ? String.valueOf(id) : name);
 		amountLabel.setText(account.toString());
 	}
 
