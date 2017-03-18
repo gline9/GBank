@@ -29,11 +29,6 @@ public class Account {
 	private long lastCompoundTime;
 
 	/**
-	 * smallest amount of money the account can have in it.
-	 */
-	private double minimumBalance = 0;
-
-	/**
 	 * initializes a new account with the given principal rate and compound rate
 	 * 
 	 * @param principal
@@ -145,17 +140,39 @@ public class Account {
 	/**
 	 * this method will deposit additional funds to the account
 	 * 
+	 * @return amount actually deposited, different than amount only in the case
+	 *         of loans.
 	 * @param amount
-	 *            amount to deposit
+	 *            amount to deposit must be positive
 	 * @since Aug 16, 2016
 	 */
-	public void deposit(double amount) {
+	public double deposit(double amount) {
+		// if amount is non-positive return 0
+		if (amount <= 0)
+			return 0;
+
 		setDirty();
 		// capitalize the account so the principal is up to date
 		capitalize();
 
-		// add the amount to the principal
+		// check if there was more deposited than needed
+		if (principal < 0 && Math.abs(principal) < amount) {
+
+			// if there was more taken out than needed take out the maximum
+			// amount that we can
+			double deposited = principal;
+
+			principal = 0;
+
+			return deposited;
+
+		}
+
+		// otherwise deposit the actual amount
 		principal += amount;
+
+		// return how much was actually deposited
+		return amount;
 	}
 
 	/**
@@ -163,28 +180,33 @@ public class Account {
 	 * return the actual amount withdrawn in case of an over draw
 	 * 
 	 * @param amount
-	 *            amount to withdraw
+	 *            amount to withdraw must be positive
 	 * @return amount actually withdrawn
 	 * @since Aug 16, 2016
 	 */
 	public double withdraw(double amount) {
+		// if amount is non-positive return 0
+		if (amount <= 0)
+			return 0;
+
 		setDirty();
 		// capitalize the account so the principal is up to date
 		capitalize();
 
-		// subtract the amount to withdraw
-		principal -= amount;
-
 		// check if there was an overdraw
-		if (principal < minimumBalance) {
+		if (principal > 0 && principal < amount) {
 
-			// if so change the amount withdrawn
-			amount -= minimumBalance - principal;
+			// if there was an overdraw take out the maximum amount that we can
+			double withdrawn = principal;
 
-			// also set the principal to the minimum balance
-			principal = minimumBalance;
+			principal = 0;
+
+			return withdrawn;
 
 		}
+
+		// otherwise withdraw the actual amount
+		principal -= amount;
 
 		// return how much was actually withdrawn
 		return amount;
@@ -210,6 +232,15 @@ public class Account {
 	}
 
 	public String toString() {
-		return String.format("$%,3.2f", getBalance());
+		// check if the balance is negative, if so add the appropriate
+		// parenthesis.
+		String before = "";
+		String after = "";
+		double balance = getBalance();
+		if (balance < 0) {
+			before = "(";
+			after = ")";
+		}
+		return String.format(before + "$%,3.2f" + after, Math.abs(balance));
 	}
 }
