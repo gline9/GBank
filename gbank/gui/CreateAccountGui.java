@@ -86,6 +86,10 @@ public class CreateAccountGui extends JDialog {
 			}
 		});
 		add(confirm);
+
+		// set the button for creation to be pressed when enter is pressed.
+		getRootPane().setDefaultButton(confirm);
+
 		pack();
 		setVisible(true);
 		setResizable(false);
