@@ -28,7 +28,7 @@
    1. Click the **Add Account** button
    1. Enter your account details.
       1. **Account Name** is the name you would like to give the account, if left blank it will default to the account id.
-      1. **Principal Balance** is how much money you have in the account.
+      1. **Principal Balance** is how much money you have in the account. Put in a negative balance for a loan.
       1. **Interest Rate** is the amount of interest in absolute terms, for instance 5% would be entered as .05
       1. **Compounds per Year** is how often in a year your account compounds, for instance you would enter 12 for compounding monthly.
    1. Click the **Confirm** button and your account will be added.
