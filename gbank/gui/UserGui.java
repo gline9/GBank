@@ -1,15 +1,16 @@
 package gbank.gui;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gbank.io.UserIO;
@@ -68,25 +69,34 @@ public class UserGui extends JFrame {
 			accountPanes.put(account.getFirst(), new Pair<>(pane, account.getSecond()));
 		}
 
-		// add the account editing pane
-		AccountEditingPane edit = new AccountEditingPane();
-		edit.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(edit);
+		// add the buttons on the bottom
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-		// add a listener for new components in order to resize the window
-		// appropriately.
-		addContainerListener(new ContainerListener() {
+		// create the button to add a new account
+		JButton add = new JButton("Add Account");
+		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
+		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(add);
 
-			@Override
-			public void componentAdded(ContainerEvent event) {
-				validate();
-				pack();
-				System.out.println("added");
-			}
-
-			@Override
-			public void componentRemoved(ContainerEvent event) {}
+		// create the log out button
+		JButton logOut = new JButton("Log Out");
+		logOut.addActionListener((ActionEvent event) -> {
+			dispose();
+			new LogInGui();
 		});
+		logOut.setFont(new Font(logOut.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(logOut);
+
+		// create the quit button
+		JButton quit = new JButton("Quit");
+		quit.addActionListener((ActionEvent event) -> dispose());
+		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(quit);
+
+		// add the button panel
+		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(buttonPanel);
 
 		// set the window to visible and pack its components
 		pack();
