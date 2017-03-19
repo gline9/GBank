@@ -32,6 +32,7 @@
       1. **Interest Rate** is the amount of interest in absolute terms, for instance 5% would be entered as .05
       1. **Compounds per Year** is how often in a year your account compounds, for instance you would enter 12 for compounding monthly.
    1. Click the **Confirm** button and your account will be added.
+   1. To log off when you are done click the **Log Out** button in the main gui.
 1. View account details
    1. Click on the account that you want the details of.
    1. A window will open up showing you the name, balance, interest rate, and how often the account is compounded
