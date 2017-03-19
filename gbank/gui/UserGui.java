@@ -79,6 +79,15 @@ public class UserGui extends JFrame {
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
 		buttonPanel.add(add);
 
+		// create the log out button
+		JButton logOut = new JButton("Log Out");
+		logOut.addActionListener((ActionEvent event) -> {
+			dispose();
+			new LogInGui();
+		});
+		logOut.setFont(new Font(logOut.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(logOut);
+
 		// create the quit button
 		JButton quit = new JButton("Quit");
 		quit.addActionListener((ActionEvent event) -> dispose());
