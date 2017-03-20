@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import gbank.gui.elem.EditableLabel;
 import gbank.types.Account;
 import gcore.units.FrequencyUnit;
 import gcore.units.TimeUnit;
