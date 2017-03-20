@@ -78,7 +78,13 @@ public class UserGui extends JFrame {
 		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
 		buttonPanel.add(add);
-
+		
+		// create the button to perform a transfer
+		JButton transfer = new JButton("Transfer");
+		transfer.addActionListener((ActionEvent e) -> new TransferGui(this, this.user, null));
+		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(transfer);
+		
 		// create the log out button
 		JButton logOut = new JButton("Log Out");
 		logOut.addActionListener((ActionEvent event) -> {
