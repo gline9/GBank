@@ -81,7 +81,7 @@ public class UserGui extends JFrame {
 		
 		// create the button to perform a transfer
 		JButton transfer = new JButton("Transfer");
-		transfer.addActionListener((ActionEvent e) -> new TransferGui(this, this.user, null, null));
+		transfer.addActionListener((ActionEvent e) -> new TransferGui(this, this.user));
 		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
 		buttonPanel.add(transfer);
 		
