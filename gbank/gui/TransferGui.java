@@ -1,5 +1,6 @@
 package gbank.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Window;
@@ -11,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.types.Account;
@@ -25,9 +27,21 @@ public class TransferGui extends JDialog {
 
 	private final Timer updateTimer;
 
+	public TransferGui(Window parent, User user) {
+		this(parent, user, null, null);
+	}
+
 	public TransferGui(Window parent, User user, Account defaultFromAccount, Account defaultToAccount) {
+		this(parent, user, defaultFromAccount, true, defaultToAccount, true);
+	}
+
+	public TransferGui(Window parent, User user, Account defaultFromAccount, boolean fromEditable,
+			Account defaultToAccount, boolean toEditable) {
 		super(parent, "Transfer Funds", ModalityType.APPLICATION_MODAL);
 		accounts = user.getAccounts().stream().map(a -> new AccountItem(a.getSecond(), a.getFirst())).toArray();
+		
+		// change the color of a disabled combo box
+		UIManager.put("ComboBox.disabledForeground", new Color(0xff808080));
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
@@ -36,6 +50,9 @@ public class TransferGui extends JDialog {
 		// if we pass in null don't set the default item
 		if (defaultFromAccount != null)
 			from.setSelectedItem(new AccountItem(defaultFromAccount, 0));
+
+		// if combo box is not editable set that
+		from.setEnabled(fromEditable);
 
 		from.setFont(new Font(from.getFont().getFontName(), Font.PLAIN, 30));
 		from.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -46,6 +63,9 @@ public class TransferGui extends JDialog {
 		// if we pass in null don't set the default item
 		if (defaultToAccount != null)
 			to.setSelectedItem(new AccountItem(defaultToAccount, 0));
+
+		// if combo box is not editable set that
+		to.setEnabled(toEditable);
 
 		to.setFont(new Font(to.getFont().getFontName(), Font.PLAIN, 30));
 		to.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -116,7 +136,7 @@ public class TransferGui extends JDialog {
 	// class for handling the string conversion of an account
 	private class AccountItem {
 		private final Account account;
-		
+
 		private final String updateString;
 
 		public AccountItem(Account account, int id) {

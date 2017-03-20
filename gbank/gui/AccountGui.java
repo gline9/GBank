@@ -89,12 +89,12 @@ public class AccountGui extends JDialog {
 		
 		JButton transferFrom = new JButton("Transfer From");
 		transferFrom.setFont(new Font(transferFrom.getFont().getFontName(), Font.PLAIN, 30));
-		transferFrom.addActionListener(e -> new TransferGui(this, user, account, null));
+		transferFrom.addActionListener(e -> new TransferGui(this, user, account, false, null, true));
 		buttonPanel.add(transferFrom);
 		
 		JButton transferTo = new JButton("Transfer To");
 		transferTo.setFont(new Font(transferTo.getFont().getFontName(), Font.PLAIN, 30));
-		transferTo.addActionListener(e -> new TransferGui(this, user, null, account));
+		transferTo.addActionListener(e -> new TransferGui(this, user, null, true, account, false));
 		buttonPanel.add(transferTo);
 		
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
