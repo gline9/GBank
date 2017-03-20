@@ -3,21 +3,27 @@ package gbank.gui;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.types.Account;
 import gbank.types.User;
+import gcore.units.FrequencyUnit;
+import gcore.units.TimeUnit;
 
 public class TransferGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private final Object[] accounts;
+
+	private final Timer updateTimer;
 
 	public TransferGui(Window parent, User user, Account defaultFromAccount, Account defaultToAccount) {
 		super(parent, "Transfer Funds", ModalityType.APPLICATION_MODAL);
@@ -77,7 +83,7 @@ public class TransferGui extends JDialog {
 					String.format("$%,3.2f was successfully transfered from account %s to account %s", deposited,
 							((AccountItem) from.getSelectedItem()).toString(),
 							((AccountItem) to.getSelectedItem()).toString()));
-			
+
 			// close the transfer dialog when the pane is closed
 			dispose();
 
@@ -85,19 +91,39 @@ public class TransferGui extends JDialog {
 		transfer.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(transfer);
 
+		// add a repaint timer
+		int fps = 60;
+		updateTimer = new Timer(
+				(int) new FrequencyUnit(fps, FrequencyUnit.PER_SECOND).getDelay().convertTo(TimeUnit.MILLISECONDS),
+				(ActionEvent e) -> {
+					repaint();
+				});
+		updateTimer.start();
+
 		pack();
 		setResizable(false);
 		setVisible(true);
 	}
 
+	@Override
+	public void dispose() {
+
+		updateTimer.stop();
+
+		super.dispose();
+	}
+
 	// class for handling the string conversion of an account
 	private class AccountItem {
 		private final Account account;
-		private final int id;
+		
+		private final String updateString;
 
 		public AccountItem(Account account, int id) {
 			this.account = account;
-			this.id = id;
+			String name = account.getName();
+			name = name.equals("") ? String.valueOf(id) : name;
+			updateString = String.format("%s:\t%s", name, account.toString());
 		}
 
 		public Account getAccount() {
@@ -105,9 +131,7 @@ public class TransferGui extends JDialog {
 		}
 
 		public String toString() {
-			String name = account.getName();
-			name = name.equals("") ? String.valueOf(id) : name;
-			return String.format("%s:\t%s", name, account.toString());
+			return updateString;
 		}
 
 		public boolean equals(Object obj) {
