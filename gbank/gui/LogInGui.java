@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gbank.gui.elem.DefaultPasswordField;
+import gbank.gui.elem.DefaultTextField;
 import gbank.io.LogIn;
 
 public class LogInGui extends JFrame {

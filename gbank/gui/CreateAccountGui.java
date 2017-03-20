@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import gbank.gui.elem.DefaultTextField;
 import gbank.types.Account;
 
 public class CreateAccountGui extends JDialog {

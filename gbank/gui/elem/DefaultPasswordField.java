@@ -1,4 +1,4 @@
-package gbank.gui;
+package gbank.gui.elem;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;
