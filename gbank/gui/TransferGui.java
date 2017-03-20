@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.awt.Window;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.types.Account;
@@ -48,6 +50,41 @@ public class TransferGui extends JDialog {
 		amount.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(amount);
 
+		JButton transfer = new JButton("Make Transfer");
+		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
+		transfer.addActionListener(e -> {
+			double transferAmount = 0;
+			try {
+				transferAmount = Double.valueOf(amount.getText());
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Transfer Amount must be a valid number.");
+				return;
+			}
+			Account accountFrom = ((AccountItem) from.getSelectedItem()).getAccount();
+			Account accountTo = ((AccountItem) to.getSelectedItem()).getAccount();
+
+			// withdraw as much as you can from account from
+			double withdrawn = accountFrom.withdraw(transferAmount);
+
+			// deposit as much of that as possible to the account to
+			double deposited = accountTo.deposit(withdrawn);
+
+			// if there is a difference return that to the original account
+			accountFrom.deposit(withdrawn - deposited);
+
+			// notify how much money was transfered
+			JOptionPane.showMessageDialog(null,
+					String.format("$%,3.2f was successfully transfered from account %s to account %s", deposited,
+							((AccountItem) from.getSelectedItem()).toString(),
+							((AccountItem) to.getSelectedItem()).toString()));
+			
+			// close the transfer dialog when the pane is closed
+			dispose();
+
+		});
+		transfer.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(transfer);
+
 		pack();
 		setResizable(false);
 		setVisible(true);
@@ -62,8 +99,8 @@ public class TransferGui extends JDialog {
 			this.account = account;
 			this.id = id;
 		}
-		
-		public Account getAccount(){
+
+		public Account getAccount() {
 			return account;
 		}
 
