@@ -10,10 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gbank.gui.elem.EditableLabel;
 import gbank.types.Account;
+import gbank.types.User;
 import gcore.units.FrequencyUnit;
 import gcore.units.TimeUnit;
 
@@ -28,7 +30,7 @@ public class AccountGui extends JDialog {
 
 	private final Account account;
 
-	public AccountGui(UserGui parent, AccountPane accountPane, Account account, int id) {
+	public AccountGui(UserGui parent, User user, AccountPane accountPane, Account account, int id) {
 		super(parent, "Account Details", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -69,6 +71,9 @@ public class AccountGui extends JDialog {
 
 		// set the text for the labels
 		setDetails();
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
 		JButton remove = new JButton("Remove");
 		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
@@ -80,8 +85,20 @@ public class AccountGui extends JDialog {
 			dispose();
 
 		});
-		remove.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(remove);
+		buttonPanel.add(remove);
+		
+		JButton transferFrom = new JButton("Transfer From");
+		transferFrom.setFont(new Font(transferFrom.getFont().getFontName(), Font.PLAIN, 30));
+		transferFrom.addActionListener(e -> new TransferGui(this, user, account, null));
+		buttonPanel.add(transferFrom);
+		
+		JButton transferTo = new JButton("Transfer To");
+		transferTo.setFont(new Font(transferTo.getFont().getFontName(), Font.PLAIN, 30));
+		transferTo.addActionListener(e -> new TransferGui(this, user, null, account));
+		buttonPanel.add(transferTo);
+		
+		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(buttonPanel);
 
 		// add a repaint timer
 		int fps = 60;
