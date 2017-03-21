@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import gbank.types.Account;
+import gbank.types.User;
 
 public class AccountPane extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,7 @@ public class AccountPane extends JPanel {
 
 	private boolean isHovering = false;
 
-	public AccountPane(Account account, int id) {
+	public AccountPane(User user, Account account, int id) {
 		this.account = account;
 		this.id = id;
 		this.setLayout(new BorderLayout());
@@ -51,7 +52,7 @@ public class AccountPane extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// open the Account Gui to edit the account
-				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), AccountPane.this, account, id);
+				new AccountGui((UserGui) SwingUtilities.getRoot(AccountPane.this), user, AccountPane.this, account, id);
 			}
 
 			@Override

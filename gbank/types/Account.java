@@ -160,7 +160,7 @@ public class Account {
 
 			// if there was more taken out than needed take out the maximum
 			// amount that we can
-			double deposited = principal;
+			double deposited = -principal;
 
 			principal = 0;
 

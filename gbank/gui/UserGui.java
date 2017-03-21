@@ -63,7 +63,7 @@ public class UserGui extends JFrame {
 
 		// add the account components for each account the user has.
 		for (Pair<Integer, Account> account : user.getAccounts()) {
-			AccountPane pane = new AccountPane(account.getSecond(), account.getFirst());
+			AccountPane pane = new AccountPane(user, account.getSecond(), account.getFirst());
 			pane.setAlignmentX(Component.LEFT_ALIGNMENT);
 			add(pane);
 			accountPanes.put(account.getFirst(), new Pair<>(pane, account.getSecond()));
@@ -78,7 +78,13 @@ public class UserGui extends JFrame {
 		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
 		buttonPanel.add(add);
-
+		
+		// create the button to perform a transfer
+		JButton transfer = new JButton("Transfer");
+		transfer.addActionListener((ActionEvent e) -> new TransferGui(this, this.user));
+		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
+		buttonPanel.add(transfer);
+		
 		// create the log out button
 		JButton logOut = new JButton("Log Out");
 		logOut.addActionListener((ActionEvent event) -> {
@@ -115,7 +121,7 @@ public class UserGui extends JFrame {
 		int id = user.addAccount(a);
 
 		// create a new account pane
-		AccountPane pane = new AccountPane(a, id);
+		AccountPane pane = new AccountPane(user, a, id);
 		pane.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		// add the account pane to the main window

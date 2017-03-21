@@ -39,3 +39,13 @@
    1. To change the name of the account click the **&#9998;** button, enter in the new name of the account in the 
     new field, and click the **&#10003;** button to save the value.
    1. To remove the account just click the **Remove** button at the bottom of the screen.
+1. Transfer Funds
+   1. Open the account detail window
+   1. At the bottom choose either the **Transfer From** button or the **Transfer To** button.
+   1. In the displayed gui choose the other account you want to transfer from or to.
+   1. Enter the amount in the **Transfer Amount** field.
+   1. Click the **Transfer** button to complete the transfer
+   1. A dialog will pop up letting you know how much money was successfully transfered, this will be different than amount requested
+    if an overdraw would have occurred.
+   1. You also have the option to Deposit or Withdraw money into an account by using the corresponding accounts, these won't take money
+    from your accounts but from an infinite source. 
