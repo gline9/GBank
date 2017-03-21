@@ -97,6 +97,16 @@ public class AccountGui extends JDialog {
 		transferTo.addActionListener(e -> new TransferGui(this, user, null, true, account, false));
 		buttonPanel.add(transferTo);
 		
+		JButton deposit = new JButton("Deposit");
+		deposit.setFont(new Font(deposit.getFont().getFontName(), Font.PLAIN, 30));
+		deposit.addActionListener(e -> new TransferGui(this, user, TransferGui.deposit, false, account, false));
+		buttonPanel.add(deposit);
+		
+		JButton withdraw = new JButton("Withdraw");
+		withdraw.setFont(new Font(withdraw.getFont().getFontName(), Font.PLAIN, 30));
+		withdraw.addActionListener(e -> new TransferGui(this, user, account, false, TransferGui.withdraw, false));
+		buttonPanel.add(withdraw);
+		
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(buttonPanel);
 

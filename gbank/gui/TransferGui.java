@@ -26,6 +26,12 @@ public class TransferGui extends JDialog {
 	private final Object[] accounts;
 
 	private final Timer updateTimer;
+	
+	public static final Account deposit = getDeposit();
+	public static final Account withdraw = getWithdraw();
+	
+	private static final AccountItem depositItem = new AccountItem(deposit, 0);
+	private static final AccountItem withdrawItem = new AccountItem(withdraw, 0);
 
 	public TransferGui(Window parent, User user) {
 		this(parent, user, null, null);
@@ -46,6 +52,9 @@ public class TransferGui extends JDialog {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		JComboBox<Object> from = new JComboBox<>(accounts);
+		
+		// add the deposit account
+		from.addItem(depositItem);
 
 		// if we pass in null don't set the default item
 		if (defaultFromAccount != null)
@@ -59,6 +68,9 @@ public class TransferGui extends JDialog {
 		add(from);
 
 		JComboBox<Object> to = new JComboBox<>(accounts);
+		
+		// add the withdraw account
+		to.addItem(withdrawItem);
 
 		// if we pass in null don't set the default item
 		if (defaultToAccount != null)
@@ -134,7 +146,7 @@ public class TransferGui extends JDialog {
 	}
 
 	// class for handling the string conversion of an account
-	private class AccountItem {
+	private static class AccountItem {
 		private final Account account;
 
 		private final String updateString;
@@ -160,5 +172,18 @@ public class TransferGui extends JDialog {
 				return ((AccountItem) obj).account == account;
 			return false;
 		}
+	}
+	
+	// initializer methods for the deposit and withdraw accounts
+	private static Account getDeposit(){
+		Account deposit = new Account(Double.POSITIVE_INFINITY, 0, 1);
+		deposit.setName("Deposit");
+		return deposit;
+	}
+	
+	private static Account getWithdraw(){
+		Account withdraw = new Account(Double.NEGATIVE_INFINITY, 0, 1);
+		withdraw.setName("Withdraw");
+		return withdraw;
 	}
 }
