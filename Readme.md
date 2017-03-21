@@ -47,3 +47,5 @@
    1. Click the **Transfer** button to complete the transfer
    1. A dialog will pop up letting you know how much money was successfully transfered, this will be different than amount requested
     if an overdraw would have occurred.
+   1. You also have the option to Deposit or Withdraw money into an account by using the corresponding accounts, these won't take money
+    from your accounts but from an infinite source. 
