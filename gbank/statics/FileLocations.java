@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public final class FileLocations {
 
-	private static final String root = "I:\\In Development\\Java\\GBank\\Accounts\\";
+	private static final String root = "I:/In Development/Java/GBank/Accounts/";
 
 	private static final String userLoginName = "userLogins.csv";
 
@@ -18,7 +18,7 @@ public final class FileLocations {
 	}
 
 	private static String getAccountFolder(String username) {
-		return root + username + "\\";
+		return root + username + "/";
 	}
 
 	public static String getAccountInfoFile(String username) {
