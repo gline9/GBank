@@ -79,7 +79,7 @@ public class AccountGui extends JDialog {
 		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
 		remove.addActionListener((ActionEvent e) -> {
 			// remove the account from the window
-			parent.removeAccount(accountPane, id);
+			parent.removeAccount(id);
 
 			// close the gui as the account is gone
 			dispose();
