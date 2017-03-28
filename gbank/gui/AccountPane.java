@@ -2,8 +2,11 @@ package gbank.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -16,6 +19,8 @@ import gbank.types.User;
 
 public class AccountPane extends JPanel {
 	private static final long serialVersionUID = 1L;
+	public static final int Height = 55;
+	public static final int Width = 900;
 
 	private final Account account;
 
@@ -38,11 +43,38 @@ public class AccountPane extends JPanel {
 		backgroundColor = getBackground();
 
 		setLabels();
+		
+		// set the maximum size for id label and amount label
+		idLabel.setPreferredSize(new Dimension(Width/2, Height));
+		
+		// this is so the account pane will always have a definite size
+		this.setPreferredSize(new Dimension(Width, Height));
+		this.setMaximumSize(new Dimension(Width, Height));
 
 		idLabel.setFont(new Font(idLabel.getFont().getFontName(), Font.PLAIN, 40));
 		add(idLabel, BorderLayout.WEST);
 
 		amountLabel.setFont(new Font(amountLabel.getFont().getFontName(), Font.PLAIN, 40));
+		amountLabel.addComponentListener(new ComponentListener(){
+
+			@Override
+			public void componentHidden(ComponentEvent arg0) {}
+
+			@Override
+			public void componentMoved(ComponentEvent arg0) {}
+
+			@Override
+			public void componentResized(ComponentEvent event) {
+				// check if the component went past the maximum width
+				if (amountLabel.getWidth() > Width/2){
+					// if so resize to the appropriate width
+					amountLabel.setPreferredSize(new Dimension(Width/2, amountLabel.getHeight()));
+				}
+			}
+
+			@Override
+			public void componentShown(ComponentEvent arg0) {}
+		});
 		add(amountLabel, BorderLayout.EAST);
 
 		// add a mouse listener so we can change color when the mouse hovers

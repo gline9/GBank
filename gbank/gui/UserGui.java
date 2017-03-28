@@ -3,6 +3,7 @@ package gbank.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
 import javax.swing.Timer;
 
 import gbank.io.UserIO;
@@ -26,6 +28,7 @@ import gcore.units.TimeUnit;
 
 public class UserGui extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private static final int accountHeight = 300;
 
 	private final User user;
 
@@ -36,7 +39,7 @@ public class UserGui extends JFrame {
 
 	private final Timer updateTimer;
 
-	private final JPanel accountPanel;
+	private final ScrollPane accountPanel;
 
 	public UserGui(String username, String password) {
 		super(String.format("Welcome %s", username));
@@ -68,7 +71,8 @@ public class UserGui extends JFrame {
 
 		// add the account components for each account the user has into a
 		// separate JPanel
-		accountPanel = new JPanel();
+		accountPanel = new ScrollPane();
+
 		accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
 		for (Pair<Integer, Account> account : user.getAccounts()) {
 			AccountPane pane = new AccountPane(user, account.getSecond(), account.getFirst());
@@ -76,18 +80,17 @@ public class UserGui extends JFrame {
 			accountPanel.add(pane);
 			accountPanes.put(account.getFirst(), new Pair<>(pane, account.getSecond()));
 		}
-		
+
 		// create the scroll pane for the account panel
 		JScrollPane scrollPane = new JScrollPane(accountPanel);
-		
+
 		scrollPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
 				BorderFactory.createLoweredBevelBorder()));
-		
+
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(0, 300));
-		
-		
-		
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(18);
+
 		// add the accounts to main window
 		add(scrollPane);
 
@@ -204,6 +207,35 @@ public class UserGui extends JFrame {
 
 		// call the super's dispose method
 		super.dispose();
+	}
+
+	private class ScrollPane extends JPanel implements Scrollable {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Dimension getPreferredScrollableViewportSize() {
+			return new Dimension(AccountPane.Width, accountHeight);
+		}
+
+		@Override
+		public int getScrollableBlockIncrement(Rectangle arg0, int arg1, int arg2) {
+			return 55;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportHeight() {
+			return false;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			return false;
+		}
+
+		@Override
+		public int getScrollableUnitIncrement(Rectangle arg0, int arg1, int arg2) {
+			return 55;
+		}
 	}
 
 }
