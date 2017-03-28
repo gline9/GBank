@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DebugGraphics;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,7 +40,7 @@ public class UserGui extends JFrame {
 
 	private final Timer updateTimer;
 
-	private final ScrollPane accountPanel;
+	private final ScrollPanel accountPanel;
 
 	public UserGui(String username, String password) {
 		super(String.format("Welcome %s", username));
@@ -71,7 +72,7 @@ public class UserGui extends JFrame {
 
 		// add the account components for each account the user has into a
 		// separate JPanel
-		accountPanel = new ScrollPane();
+		accountPanel = new ScrollPanel();
 
 		accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
 		for (Pair<Integer, Account> account : user.getAccounts()) {
@@ -209,12 +210,12 @@ public class UserGui extends JFrame {
 		super.dispose();
 	}
 
-	private class ScrollPane extends JPanel implements Scrollable {
+	private class ScrollPanel extends JPanel implements Scrollable {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
-			return new Dimension(AccountPane.Width, accountHeight);
+			return new Dimension(AccountPane.Width-300, accountHeight);
 		}
 
 		@Override

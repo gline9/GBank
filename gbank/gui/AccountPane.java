@@ -111,7 +111,7 @@ public class AccountPane extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
 		});
-
+		setPreferredSize(new Dimension(Width, Height));
 		setVisible(true);
 	}
 
