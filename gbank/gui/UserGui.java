@@ -11,9 +11,11 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.DebugGraphics;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
@@ -70,6 +72,50 @@ public class UserGui extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+		// add the menu options
+		JMenuBar menu = new JMenuBar();
+
+		// create the file menu
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setFont(new Font(fileMenu.getFont().getFontName(), Font.PLAIN, 30));
+		
+		// create the log out button
+		JMenuItem logOut = new JMenuItem("Log Out");
+		logOut.addActionListener((ActionEvent event) -> {
+			dispose();
+			new LogInGui();
+		});
+		logOut.setFont(new Font(logOut.getFont().getFontName(), Font.PLAIN, 30));
+		fileMenu.add(logOut);
+
+		// create the quit button
+		JMenuItem quit = new JMenuItem("Quit");
+		quit.addActionListener((ActionEvent event) -> dispose());
+		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
+		fileMenu.add(quit);
+
+		JMenu editMenu = new JMenu("Edit");
+		editMenu.setFont(new Font(editMenu.getFont().getFontName(), Font.PLAIN, 30));
+		
+		// create the button to add a new account
+		JMenuItem add = new JMenuItem("Add Account");
+		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
+		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
+		editMenu.add(add);
+
+		// create the button to perform a transfer
+		JMenuItem transfer = new JMenuItem("Transfer");
+		transfer.addActionListener(e -> new TransferGui(this, this.user));
+		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
+		editMenu.add(transfer);
+		
+		// add the menus to the menu bar
+		menu.add(fileMenu);
+		menu.add(editMenu);
+
+		// add the menu bar
+		setJMenuBar(menu);
+
 		// add the account components for each account the user has into a
 		// separate JPanel
 		accountPanel = new ScrollPanel();
@@ -94,41 +140,6 @@ public class UserGui extends JFrame {
 
 		// add the accounts to main window
 		add(scrollPane);
-
-		// add the buttons on the bottom
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-
-		// create the button to add a new account
-		JButton add = new JButton("Add Account");
-		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
-		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
-		buttonPanel.add(add);
-
-		// create the button to perform a transfer
-		JButton transfer = new JButton("Transfer");
-		transfer.addActionListener(e -> new TransferGui(this, this.user));
-		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
-		buttonPanel.add(transfer);
-
-		// create the log out button
-		JButton logOut = new JButton("Log Out");
-		logOut.addActionListener((ActionEvent event) -> {
-			dispose();
-			new LogInGui();
-		});
-		logOut.setFont(new Font(logOut.getFont().getFontName(), Font.PLAIN, 30));
-		buttonPanel.add(logOut);
-
-		// create the quit button
-		JButton quit = new JButton("Quit");
-		quit.addActionListener((ActionEvent event) -> dispose());
-		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
-		buttonPanel.add(quit);
-
-		// add the button panel
-		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(buttonPanel);
 
 		// set the window to visible and pack its components
 		pack();
@@ -215,7 +226,7 @@ public class UserGui extends JFrame {
 
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
-			return new Dimension(AccountPane.Width-300, accountHeight);
+			return new Dimension(AccountPane.Width - 10, accountHeight);
 		}
 
 		@Override
