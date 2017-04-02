@@ -15,6 +15,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import gbank.gui.elem.DefaultTextField;
+import gbank.statics.ImageStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.units.FrequencyUnit;
@@ -44,6 +45,7 @@ public class TransferGui extends JDialog {
 	public TransferGui(Window parent, User user, Account defaultFromAccount, boolean fromEditable,
 			Account defaultToAccount, boolean toEditable) {
 		super(parent, "Transfer Funds", ModalityType.APPLICATION_MODAL);
+		setIconImage(ImageStatics.getFavicon());
 		accounts = user.getAccounts().stream().map(a -> new AccountItem(a.getSecond(), a.getFirst())).toArray();
 		
 		// change the color of a disabled combo box

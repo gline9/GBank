@@ -19,6 +19,7 @@ import gbank.gui.elem.DefaultTextField;
 import gbank.io.LogIn;
 import gbank.io.UserIO;
 import gbank.statics.FileLocations;
+import gbank.statics.ImageStatics;
 import gbank.types.User;
 
 public class CreateLoginGui extends JFrame {
@@ -33,6 +34,7 @@ public class CreateLoginGui extends JFrame {
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setIconImage(ImageStatics.getFavicon());
 
 		// field for the user to input their username
 		DefaultTextField username = new DefaultTextField(20, usernameDefaultText);

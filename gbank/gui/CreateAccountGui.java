@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import gbank.gui.elem.DefaultTextField;
+import gbank.statics.ImageStatics;
 import gbank.types.Account;
 
 public class CreateAccountGui extends JDialog {
@@ -19,6 +20,7 @@ public class CreateAccountGui extends JDialog {
 	public CreateAccountGui(UserGui parent) {
 		super(parent, "Create New Account", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setIconImage(ImageStatics.getFavicon());
 
 		DefaultTextField name = new DefaultTextField(20, "Account Name");
 		name.setFont(new Font(name.getFont().getFontName(), Font.PLAIN, 30));

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gbank.gui.elem.EditableLabel;
+import gbank.statics.ImageStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.units.FrequencyUnit;
@@ -34,6 +35,7 @@ public class AccountGui extends JDialog {
 		super(parent, "Account Details", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setIconImage(ImageStatics.getFavicon());
 
 		// initialize the final variables
 		this.account = account;

@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +26,7 @@ import javax.swing.Timer;
 
 import gbank.io.UserIO;
 import gbank.statics.FileLocations;
+import gbank.statics.ImageStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.tuples.Pair;
@@ -46,6 +50,7 @@ public class UserGui extends JFrame {
 
 	public UserGui(String username, String password) {
 		super(String.format("Welcome %s", username));
+		setIconImage(ImageStatics.getFavicon());
 
 		// save the username and password fields
 		this.username = username;
@@ -75,10 +80,38 @@ public class UserGui extends JFrame {
 		// add the menu options
 		JMenuBar menu = new JMenuBar();
 
+		MouseListener menuListener = new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+
+			@Override
+			public void mouseEntered(MouseEvent event) {
+				JMenu menu = (JMenu) event.getSource();
+				if (!menu.isPopupMenuVisible())
+					menu.setSelected(true);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent event) {
+				JMenu menu = (JMenu) event.getSource();
+				if (!menu.isPopupMenuVisible())
+					menu.setSelected(false);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+
+		};
+
 		// create the file menu
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setFont(new Font(fileMenu.getFont().getFontName(), Font.PLAIN, 30));
-		
+		fileMenu.addMouseListener(menuListener);
+
 		// create the log out button
 		JMenuItem logOut = new JMenuItem("Log Out");
 		logOut.addActionListener((ActionEvent event) -> {
@@ -96,7 +129,8 @@ public class UserGui extends JFrame {
 
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setFont(new Font(editMenu.getFont().getFontName(), Font.PLAIN, 30));
-		
+		editMenu.addMouseListener(menuListener);
+
 		// create the button to add a new account
 		JMenuItem add = new JMenuItem("Add Account");
 		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
@@ -108,7 +142,7 @@ public class UserGui extends JFrame {
 		transfer.addActionListener(e -> new TransferGui(this, this.user));
 		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
 		editMenu.add(transfer);
-		
+
 		// add the menus to the menu bar
 		menu.add(fileMenu);
 		menu.add(editMenu);
