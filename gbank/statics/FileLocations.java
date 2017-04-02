@@ -5,24 +5,33 @@ import java.io.IOException;
 
 public final class FileLocations {
 
-	private static final String root = "I:\\In Development\\Java\\GBank\\Accounts\\";
+	private static final String root = "";
+	
+	private static final String accountRoot = "Accounts/";
 
 	private static final String userLoginName = "userLogins.csv";
-
 	public static final String userLoginFile = getUserLoginFile();
+	
+	public static final String resourceRoot = "resources/";
+	
+	public static final String favicon = getImageLocation("icon.png");
 
 	private FileLocations() {}
 
 	private static String getUserLoginFile() {
-		return root + userLoginName;
+		return root + accountRoot + userLoginName;
 	}
 
 	private static String getAccountFolder(String username) {
-		return root + username + "\\";
+		return root + accountRoot + username + "/";
 	}
 
 	public static String getAccountInfoFile(String username) {
 		return getAccountFolder(username) + "AccountInfo.xml";
+	}
+	
+	public static String getImageLocation(String image){
+		return root + resourceRoot + image;
 	}
 
 	public static void initAccountFiles(String username) throws IOException {
