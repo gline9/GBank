@@ -1,0 +1,31 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Sunday, April 02, 2017 11:19:40 PM
+   Source : I:\In Development\Java\GBank\resources\
+     Dest : I:\In Development\Java\GBank\test\resources\
+
+    Files : *.*
+	    
+  Options : *.* /S /E /DCOPY:DA /COPY:DAT /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	  New Dir          1	I:\In Development\Java\GBank\resources\
+	    New File  		  595323	icon.png  0%   44%   88%  100%  
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         1         1         0         0         0         0
+   Files :         1         1         0         0         0         0
+   Bytes :   581.3 k   581.3 k         0         0         0         0
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+
+
+   Speed :            99220500 Bytes/sec.
+   Speed :            5677.442 MegaBytes/min.
+   Ended : Sunday, April 02, 2017 11:19:40 PM
+
