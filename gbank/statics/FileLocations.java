@@ -5,25 +5,22 @@ import java.io.IOException;
 
 public final class FileLocations {
 
-	private static final String root = "";
+	private static String dataRoot = "";
 	
-	private static final String accountRoot = "Accounts/";
+	private static String accountRoot = "Accounts/";
 
-	private static final String userLoginName = "userLogins.csv";
-	public static final String userLoginFile = getUserLoginFile();
+	private static String userLoginName = "userLogins.csv";
 	
-	public static final String resourceRoot = "resources/";
-	
-	public static final String favicon = getImageLocation("icon.png");
+	private static String resourceRoot = "resources/";
 
 	private FileLocations() {}
 
-	private static String getUserLoginFile() {
-		return root + accountRoot + userLoginName;
+	public static String getUserLoginFile() {
+		return dataRoot + accountRoot + userLoginName;
 	}
 
 	private static String getAccountFolder(String username) {
-		return root + accountRoot + username + "/";
+		return dataRoot + accountRoot + username + "/";
 	}
 
 	public static String getAccountInfoFile(String username) {
@@ -31,7 +28,15 @@ public final class FileLocations {
 	}
 	
 	public static String getImageLocation(String image){
-		return root + resourceRoot + image;
+		return resourceRoot + image;
+	}
+	
+	public static String getFaviconLocation(){
+		return getImageLocation("icon.png");
+	}
+	
+	public static void setDataRoot(String root){
+		FileLocations.dataRoot = root;
 	}
 
 	public static void initAccountFiles(String username) throws IOException {

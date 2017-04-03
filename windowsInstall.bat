@@ -1,13 +1,15 @@
 @echo off
-if "%~1"=="" goto :usage
-if "%~2" NEQ "" goto :usage
+if "%~1"NEQ "" goto :usage
 
-set location=%1
+set location="%ProgramFiles%"
+set datalocation="%AppData%"
+set shortcutlocation="%appdata%\Microsoft\Windows\Start Menu\Programs"
 
 mkdir %location%
-mkdir %location%\Accounts
-echo.>%location%\Accounts\userLogins.csv
-echo username^, salt^, password 1>%location%\Accounts\userLogins.csv
+mkdir %datalocation%
+mkdir %datalocation%\Accounts
+echo.>%datalocation%\Accounts\userLogins.csv
+echo username^, salt^, password 1>%datalocation%\Accounts\userLogins.csv
 
 REM copy over resources to the correct location
 robocopy resources %location%\resources /s /e 1>NUL
@@ -20,6 +22,6 @@ echo Installation complete!
 goto :done
 
 :usage
-echo Usage windowsInstall.sh ^<Install location^>
+echo Usage^: don't use any command line args.
 
 :done
