@@ -22,7 +22,6 @@ REM copy over program to the correct location
 copy GBank.jar "%location%\GBank.jar" 1>NUL
 
 REM create a shortcut in the appropriate directory
-REM call shortcutJS.bat -linkfile "%ProgramData%\Microsoft\Windows\Start Menu\Programs\GBank.lnk" -target "javaw.exe" -linkarguments -jar -linkarguments ""%location%\GBank.jar"" -iconlocation "%location%\resources\icon.ico" -workingdirectory "%location%"
 call createShortcut.bat "%ProgramData%\Microsoft\Windows\Start Menu\Programs\GBank.lnk" "%location%\GBank.jar" "%location%\resources\icon.ico" "%location%"
 echo Installation complete!
 
