@@ -23,11 +23,14 @@ public class StaticsLoader extends ConfigRegistry{
 	
 	@Override
 	protected void initConfigMap() {
-		addConfigElement("Data Root", s -> FileLocations.setDataRoot(s));
+		addConfigElement("Data Root", s -> {
+			if (!s.equals(""))
+				FileLocations.setDataRoot(s.replace('\\', '/') + "/");
+		});
 	}
 	
 	private void loadDefaults(){
-		applyConfigOption("Data Root", "Accounts");
+		applyConfigOption("Data Root", "");
 	}
 
 }

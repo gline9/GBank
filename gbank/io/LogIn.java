@@ -27,6 +27,7 @@ public final class LogIn {
 
 	public static CSVFileReader loadUsers() {
 		try {
+			System.out.println(FileLocations.getUserLoginFile());
 			userFile = new CSVFile(VirtualFile.load(new File(FileLocations.getUserLoginFile())));
 
 			return new CSVFileReader(userFile);
