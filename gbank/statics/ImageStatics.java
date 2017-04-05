@@ -12,7 +12,7 @@ public final class ImageStatics {
 	// get the favicon image
 	public static BufferedImage getFavicon() {
 		try {
-			return ImageIO.read(new File(FileLocations.favicon));
+			return ImageIO.read(new File(FileLocations.getFaviconLocation()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
