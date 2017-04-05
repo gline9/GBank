@@ -11,6 +11,9 @@ mkdir $location/Accounts
 touch $location/Accounts/userLogins.csv
 echo "username, salt, password" > $location/Accounts/userLogins.csv
 
+#copy over resources to the correct location
+cp -r resources/ $location/resources/
+
 #copy over the program to the correct location
 cp GBank.jar $location/GBank.jar
 
