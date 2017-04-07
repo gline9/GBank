@@ -2,10 +2,17 @@
 
 ### Installation
 1. Download the newest release from GitHub
-2. Run the `linuxInstall.sh` script in the command line with arguments of where it should install
- if this doesn't work try running the command `chmod +x linuxInstall.sh` before running it again.
-3. After the installation completes the program should be copied over to the directory specified.
- You can delete the folder that was downloaded as the source and enjoy the software!
+1. For linux installation follow these steps
+   1. Run the `linuxInstall.sh` script in the command line with arguments of where it should install
+    if this doesn't work try running the command `chmod +x linuxInstall.sh` before running it again.
+   1. After the installation completes the program should be copied over to the directory specified.
+    You can delete the folder that was downloaded as the source and enjoy the software!
+1. For windows installation use a version after v0.2 and follow these steps
+   1. Open a new command prompt by typing in `cmd` to the search. Right click on the program and choose
+    **Run as Administrator**.
+   1. Navigate to the installation directory in the prompt and run `windowsInstall.bat`.
+   1. When the installation completes you will have the program installed and can search for it
+    in the windows search.
  
 ### Compilation
 * **Required Libraries**
