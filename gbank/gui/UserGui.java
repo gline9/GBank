@@ -4,23 +4,23 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.Scrollable;
 import javax.swing.Timer;
 
@@ -125,6 +125,9 @@ public class UserGui extends JFrame {
 		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener((ActionEvent event) -> dispose());
 		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
+		
+		// set shortcut to ctrl + q
+		quit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(quit);
 
 		JMenu editMenu = new JMenu("Edit");
@@ -135,6 +138,9 @@ public class UserGui extends JFrame {
 		JMenuItem add = new JMenuItem("Add Account");
 		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
+		
+		// set shortcut to ctrl + a
+		add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		editMenu.add(add);
 
 		// create the button to perform a transfer
@@ -176,9 +182,9 @@ public class UserGui extends JFrame {
 		add(scrollPane);
 
 		// set the window to visible and pack its components
-		pack();
-		setVisible(true);
 		setResizable(false);
+		setVisible(true);
+		guiEdited();
 
 		// set up an auto repainting routine
 		int fps = 60;
@@ -260,7 +266,7 @@ public class UserGui extends JFrame {
 
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
-			return new Dimension(AccountPane.Width - 10, accountHeight);
+			return new Dimension(AccountPane.Width, accountHeight);
 		}
 
 		@Override
