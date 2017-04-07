@@ -101,6 +101,8 @@ public class AccountGui extends JDialog {
 		});
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
 		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		nameLabel.setEditingScript(() -> getRootPane().setDefaultButton(nameLabel.getEditButton()));
+		nameLabel.setDoneEditingScript(() -> getRootPane().setDefaultButton(null));
 		add(nameLabel);
 
 		balance = new JLabel();

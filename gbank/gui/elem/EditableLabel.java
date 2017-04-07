@@ -18,6 +18,11 @@ public class EditableLabel extends JPanel {
 
 	private JLabel text = new JLabel();
 	private JTextField field = new JTextField();
+	private JButton edit;
+
+	// these ran when the label enters editing or exits editing mode
+	private Runnable editing;
+	private Runnable done;
 
 	private boolean isEditing = false;
 
@@ -30,7 +35,7 @@ public class EditableLabel extends JPanel {
 
 		String pencil = "\u270E";
 		String check = "\u2713";
-		JButton edit = new JButton(pencil);
+		edit = new JButton(pencil);
 		edit.setFont(new Font(edit.getFont().getFontName(), Font.PLAIN, 30));
 		edit.addActionListener(new ActionListener() {
 
@@ -39,8 +44,12 @@ public class EditableLabel extends JPanel {
 				// switch between states when the button is pressed
 				if (!isEditing) {
 					isEditing = true;
+					// run the editing method
+					editing.run();
 					edit.setText(check);
 				} else {
+					// run the finish method
+					done.run();
 					isEditing = false;
 					edit.setText(pencil);
 
@@ -76,6 +85,8 @@ public class EditableLabel extends JPanel {
 			// if we are editing put in the JTextField
 			remove(text);
 			add(field, BorderLayout.CENTER);
+			// get the cursor on the field
+			field.requestFocus();
 		} else {
 			// otherwise put in the JLabel
 			remove(field);
@@ -83,6 +94,18 @@ public class EditableLabel extends JPanel {
 		}
 		validate();
 		repaint();
+	}
+	
+	public JButton getEditButton(){
+		return edit;
+	}
+	
+	public void setEditingScript(Runnable script){
+		editing = script;
+	}
+	
+	public void setDoneEditingScript(Runnable script){
+		done = script;
 	}
 
 	@Override
