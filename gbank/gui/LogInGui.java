@@ -26,7 +26,6 @@ public class LogInGui extends JFrame {
 
 	public LogInGui() {
 		super("Gavin's Banking Software");
-		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
@@ -110,5 +109,6 @@ public class LogInGui extends JFrame {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
+		setVisible(true);
 	}
 }
