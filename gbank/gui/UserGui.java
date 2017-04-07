@@ -182,9 +182,9 @@ public class UserGui extends JFrame {
 		add(scrollPane);
 
 		// set the window to visible and pack its components
-		pack();
-		setVisible(true);
 		setResizable(false);
+		setVisible(true);
+		guiEdited();
 
 		// set up an auto repainting routine
 		int fps = 60;
@@ -266,7 +266,7 @@ public class UserGui extends JFrame {
 
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
-			return new Dimension(AccountPane.Width - 10, accountHeight);
+			return new Dimension(AccountPane.Width, accountHeight);
 		}
 
 		@Override
