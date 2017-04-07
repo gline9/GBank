@@ -6,11 +6,12 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.Timer;
 
 import gbank.gui.elem.EditableLabel;
@@ -37,6 +38,52 @@ public class AccountGui extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
 
+		JMenuBar menu = new JMenuBar();
+
+		JMenu file = new JMenu("File");
+		file.setFont(new Font(menu.getFont().getFontName(), Font.PLAIN, 30));
+
+		JMenuItem remove = new JMenuItem("Remove");
+		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
+		remove.addActionListener((ActionEvent e) -> {
+			// remove the account from the window
+			parent.removeAccount(id);
+
+			// close the gui as the account is gone
+			dispose();
+
+		});
+		file.add(remove);
+
+		menu.add(file);
+
+		JMenu transfer = new JMenu("Transfer");
+		transfer.setFont(new Font(menu.getFont().getFontName(), Font.PLAIN, 30));
+
+		JMenuItem transferFrom = new JMenuItem("Transfer From");
+		transferFrom.setFont(new Font(transferFrom.getFont().getFontName(), Font.PLAIN, 30));
+		transferFrom.addActionListener(e -> new TransferGui(this, user, account, false, null, true));
+		transfer.add(transferFrom);
+
+		JMenuItem transferTo = new JMenuItem("Transfer To");
+		transferTo.setFont(new Font(transferTo.getFont().getFontName(), Font.PLAIN, 30));
+		transferTo.addActionListener(e -> new TransferGui(this, user, null, true, account, false));
+		transfer.add(transferTo);
+
+		JMenuItem deposit = new JMenuItem("Deposit");
+		deposit.setFont(new Font(deposit.getFont().getFontName(), Font.PLAIN, 30));
+		deposit.addActionListener(e -> new TransferGui(this, user, TransferGui.deposit, false, account, false));
+		transfer.add(deposit);
+
+		JMenuItem withdraw = new JMenuItem("Withdraw");
+		withdraw.setFont(new Font(withdraw.getFont().getFontName(), Font.PLAIN, 30));
+		withdraw.addActionListener(e -> new TransferGui(this, user, account, false, TransferGui.withdraw, false));
+		transfer.add(withdraw);
+
+		menu.add(transfer);
+
+		setJMenuBar(menu);
+
 		// initialize the final variables
 		this.account = account;
 
@@ -54,6 +101,8 @@ public class AccountGui extends JDialog {
 		});
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 40));
 		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		nameLabel.setEditingScript(() -> getRootPane().setDefaultButton(nameLabel.getEditButton()));
+		nameLabel.setDoneEditingScript(() -> getRootPane().setDefaultButton(null));
 		add(nameLabel);
 
 		balance = new JLabel();
@@ -73,44 +122,6 @@ public class AccountGui extends JDialog {
 
 		// set the text for the labels
 		setDetails();
-		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-
-		JButton remove = new JButton("Remove");
-		remove.setFont(new Font(remove.getFont().getFontName(), Font.PLAIN, 30));
-		remove.addActionListener((ActionEvent e) -> {
-			// remove the account from the window
-			parent.removeAccount(id);
-
-			// close the gui as the account is gone
-			dispose();
-
-		});
-		buttonPanel.add(remove);
-		
-		JButton transferFrom = new JButton("Transfer From");
-		transferFrom.setFont(new Font(transferFrom.getFont().getFontName(), Font.PLAIN, 30));
-		transferFrom.addActionListener(e -> new TransferGui(this, user, account, false, null, true));
-		buttonPanel.add(transferFrom);
-		
-		JButton transferTo = new JButton("Transfer To");
-		transferTo.setFont(new Font(transferTo.getFont().getFontName(), Font.PLAIN, 30));
-		transferTo.addActionListener(e -> new TransferGui(this, user, null, true, account, false));
-		buttonPanel.add(transferTo);
-		
-		JButton deposit = new JButton("Deposit");
-		deposit.setFont(new Font(deposit.getFont().getFontName(), Font.PLAIN, 30));
-		deposit.addActionListener(e -> new TransferGui(this, user, TransferGui.deposit, false, account, false));
-		buttonPanel.add(deposit);
-		
-		JButton withdraw = new JButton("Withdraw");
-		withdraw.setFont(new Font(withdraw.getFont().getFontName(), Font.PLAIN, 30));
-		withdraw.addActionListener(e -> new TransferGui(this, user, account, false, TransferGui.withdraw, false));
-		buttonPanel.add(withdraw);
-		
-		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(buttonPanel);
 
 		// add a repaint timer
 		int fps = 60;

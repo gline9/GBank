@@ -27,7 +27,7 @@ public final class LogIn {
 
 	public static CSVFileReader loadUsers() {
 		try {
-			userFile = new CSVFile(VirtualFile.load(new File(FileLocations.userLoginFile)));
+			userFile = new CSVFile(VirtualFile.load(new File(FileLocations.getUserLoginFile())));
 
 			return new CSVFileReader(userFile);
 		} catch (IOException e) {
@@ -39,7 +39,7 @@ public final class LogIn {
 
 	public static void saveUsers() {
 		try {
-			userFile.save(new File(FileLocations.userLoginFile));
+			userFile.save(new File(FileLocations.getUserLoginFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +81,7 @@ public final class LogIn {
 		
 		// save the file back to the drive
 		try {
-			userFile.save(new File(FileLocations.userLoginFile));
+			userFile.save(new File(FileLocations.getUserLoginFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
