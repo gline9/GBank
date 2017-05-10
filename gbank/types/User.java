@@ -2,7 +2,6 @@ package gbank.types;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import gcore.tuples.Pair;
@@ -23,6 +22,18 @@ public class User {
 	 * creates a new user using default constructor
 	 */
 	public User() {}
+
+	/**
+	 * pushes the next id forward to this id to make sure accounts are created
+	 * in increasing size
+	 * 
+	 * @param id
+	 *            id to update to
+	 * @since May 10, 2017
+	 */
+	private void updateNextID(int id) {
+		nextID = id;
+	}
 
 	/**
 	 * used to get the next account id that hasn't been used
@@ -61,11 +72,20 @@ public class User {
 		// set dirty
 		setDirty();
 
-		// get the next account id for the account
-		int id = getNextID();
+		// get the id of the account
+		int id = account.getAccountID();
 
-		// set the id in the account
-		account.setAccountID(id);
+		// if the account doesn't have an id assign it one
+		if (!account.hasAccountIDBeenSet()) {
+			// get the next account id for the account
+			id = getNextID();
+
+			// set the id in the account
+			account.setAccountID(id);
+		} else {
+			// if it has been set update the next id appropriately
+			updateNextID(id);
+		}
 
 		// add account with the current id
 		accounts.put(id, account);
@@ -101,7 +121,8 @@ public class User {
 	 * @return a sorted list of accounts of the user sorted by the id
 	 */
 	public List<Pair<Integer, Account>> getAccounts() {
-		return accounts.keySet().stream().map(a -> new Pair<Integer, Account>(a, accounts.get(a))).sorted((a, b) -> a.getFirst() - b.getFirst()).collect(Collectors.toList());
+		return accounts.keySet().stream().map(a -> new Pair<Integer, Account>(a, accounts.get(a)))
+				.sorted((a, b) -> a.getFirst() - b.getFirst()).collect(Collectors.toList());
 	}
 
 	/**
