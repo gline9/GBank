@@ -8,6 +8,13 @@ public final class AccountIO {
 	private AccountIO() {}
 
 	public static Account loadFromTag(XMLTag tag) {
+		// grab the account id
+		int id = -1;
+		String accountIDString = tag.getAttributesValue("ID");
+		// if the accountID is null don't set the account id
+		if (accountIDString != null){
+			id = Integer.valueOf(accountIDString);
+		}
 		// grab the tags from the account root tag
 		XMLTag principalTag = tag.getFirstTag("Principal");
 		XMLTag rateTag = tag.getFirstTag("Rate");
@@ -28,6 +35,7 @@ public final class AccountIO {
 		// return the account with the given values
 		Account account = new Account(principal, rate, compoundRate, lastCompoundTime);
 		account.setName(name);
+		account.setAccountID(id);
 		return account;
 	}
 
@@ -37,10 +45,16 @@ public final class AccountIO {
 		double rate = account.getRate();
 		double compoundRate = account.getCompoundRate();
 		long lastCompoundTime = account.getLastCompoundTime();
+		int id = account.getAccountID();
 		String name = account.getName();
 
 		// create a new empty tag with title Account
 		XMLTag accountTag = new XMLTag("Account");
+		
+		// if the id has been set add it to the tag
+		if (account.hasAccountIDBeenSet()){
+			accountTag.addAttribute("ID", String.valueOf(id));
+		}
 
 		// add the values to the tag
 		XMLTag principalTag = new XMLTag("Principal");

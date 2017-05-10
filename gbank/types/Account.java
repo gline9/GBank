@@ -29,6 +29,11 @@ public class Account {
 	private long lastCompoundTime;
 
 	/**
+	 * stores the account id for this account
+	 */
+	private int accountID = -1;
+
+	/**
 	 * initializes a new account with the given principal rate and compound rate
 	 * 
 	 * @param principal
@@ -135,6 +140,38 @@ public class Account {
 	 */
 	public long getLastCompoundTime() {
 		return lastCompoundTime;
+	}
+
+	/**
+	 * used to set the account id for the account
+	 * 
+	 * @param accountID
+	 *            id for the account must be positive otherwise nothing happens
+	 * @since May 10, 2017
+	 */
+	public void setAccountID(int accountID) {
+		if (accountID >= 0)
+			this.accountID = accountID;
+	}
+
+	/**
+	 * used to get the account id for the account
+	 * 
+	 * @return account id for the account, -1 if it hasn't been set
+	 * @since May 10, 2017
+	 */
+	public int getAccountID() {
+		return accountID;
+	}
+
+	/**
+	 * checks if the account ID has been set
+	 * 
+	 * @return boolean for if account ID has been set
+	 * @since May 10, 2017
+	 */
+	public boolean hasAccountIDBeenSet() {
+		return accountID > -1;
 	}
 
 	/**
