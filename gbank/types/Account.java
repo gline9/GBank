@@ -263,6 +263,12 @@ public class Account {
 		this.owner = user;
 	}
 
+	public User getOwner() {
+		return owner;
+	}
+
+	protected void finalize() {}
+
 	public void setDirty() {
 		if (owner != null)
 			owner.setDirty();

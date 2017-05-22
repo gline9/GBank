@@ -1,6 +1,7 @@
 package gbank.types;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,6 +117,18 @@ public class User {
 	}
 
 	/**
+	 * gets an account by the id of the account
+	 * 
+	 * @param id
+	 *            id to look up
+	 * @return account with the given id
+	 * @since May 22, 2017
+	 */
+	public Account getAccount(int id) {
+		return accounts.get(id);
+	}
+
+	/**
 	 * used to get a list of accounts of the user
 	 * 
 	 * @return a sorted list of accounts of the user sorted by the id
@@ -130,6 +143,14 @@ public class User {
 	 * drive.
 	 */
 	public void finalize() {
+		// finalize all of the accounts
+		Iterator<Integer> idIterator = accounts.keySet().iterator();
+
+		while (idIterator.hasNext()) {
+			accounts.get(idIterator.next()).finalize();
+		}
+
+		// finalize the user
 		finalized = true;
 	}
 

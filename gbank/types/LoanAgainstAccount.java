@@ -8,21 +8,23 @@ package gbank.types;
  */
 public class LoanAgainstAccount extends Account {
 
+	private final int againstID;
+
 	// stores the account this account is a loan against
-	private final Account against;
+	private Account against;
 
 	// stores the most this loan can take against the account
 	private double maximumLoan = Double.POSITIVE_INFINITY;
 
-	public LoanAgainstAccount(double principal, double rate, double compoundRate, Account against) {
+	public LoanAgainstAccount(double principal, double rate, double compoundRate, int againstID) {
 		super(principal > 0 ? -principal : principal, rate, compoundRate);
-		this.against = against;
+		this.againstID = againstID;
 	}
 
 	public LoanAgainstAccount(double principal, double rate, double compoundRate, long lastCompoundTime,
-			Account against) {
+			int againstID) {
 		super(principal > 0 ? -principal : principal, rate, compoundRate, lastCompoundTime);
-		this.against = against;
+		this.againstID = againstID;
 	}
 
 	/**
@@ -55,6 +57,10 @@ public class LoanAgainstAccount extends Account {
 	 */
 	public Account getAccountLoanIsAgainst() {
 		return against;
+	}
+
+	public int getAgainstID() {
+		return againstID;
 	}
 
 	@Override
@@ -101,6 +107,12 @@ public class LoanAgainstAccount extends Account {
 		// return the amount that was withdrawn
 		return withdrawn - Math.max(amountToMaximum, 0);
 
+	}
+
+	@Override
+	protected void finalize() {
+		super.finalize();
+		against = getOwner().getAccount(againstID);
 	}
 
 }
