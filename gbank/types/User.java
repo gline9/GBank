@@ -94,6 +94,10 @@ public class User {
 		// set the user as the owner of the account
 		account.setOwner(this);
 
+		// finalize the account if user is finalized
+		if (finalized)
+			account.finalize();
+
 		// return the id of the account added and increment counter
 		return id;
 	}

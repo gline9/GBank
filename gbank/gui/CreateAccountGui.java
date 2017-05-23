@@ -46,7 +46,7 @@ public class CreateAccountGui extends JDialog {
 		compound.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(compound);
 
-		JButton confirm = new JButton("Confirm");
+		JButton confirm = new JButton("Create");
 		confirm.setFont(new Font(confirm.getFont().getFontName(), Font.PLAIN, 30));
 		confirm.addActionListener(new ActionListener() {
 

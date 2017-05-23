@@ -43,7 +43,7 @@ public final class AccountIO {
 		HashMap<Class<? extends Account>, Integer> results = new HashMap<>();
 
 		results.put(Account.class, 0);
-		results.put(LoanAgainstAccount.class, 0);
+		results.put(LoanAgainstAccount.class, 1);
 
 		return results;
 	}
