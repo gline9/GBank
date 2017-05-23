@@ -125,12 +125,12 @@ public class UserGui extends JFrame {
 		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener((ActionEvent event) -> dispose());
 		quit.setFont(new Font(quit.getFont().getFontName(), Font.PLAIN, 30));
-		
+
 		// set shortcut to ctrl + q
 		quit.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(quit);
 
-		JMenu editMenu = new JMenu("Edit");
+		JMenu editMenu = new JMenu("Account");
 		editMenu.setFont(new Font(editMenu.getFont().getFontName(), Font.PLAIN, 30));
 		editMenu.addMouseListener(menuListener);
 
@@ -138,7 +138,7 @@ public class UserGui extends JFrame {
 		JMenuItem add = new JMenuItem("Add Account");
 		add.addActionListener((ActionEvent e) -> new CreateAccountGui(this));
 		add.setFont(new Font(add.getFont().getFontName(), Font.PLAIN, 30));
-		
+
 		// set shortcut to ctrl + a
 		add.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		editMenu.add(add);
@@ -148,6 +148,12 @@ public class UserGui extends JFrame {
 		transfer.addActionListener(e -> new TransferGui(this, this.user));
 		transfer.setFont(new Font(transfer.getFont().getFontName(), Font.PLAIN, 30));
 		editMenu.add(transfer);
+
+		// create the button to create a loan against an account
+		JMenuItem loan = new JMenuItem("Create Loan");
+		loan.addActionListener(e -> new CreateLoanGui(this, this.user));
+		loan.setFont(new Font(loan.getFont().getFontName(), Font.PLAIN, 30));
+		editMenu.add(loan);
 
 		// add the menus to the menu bar
 		menu.add(fileMenu);

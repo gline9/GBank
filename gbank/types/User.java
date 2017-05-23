@@ -1,16 +1,16 @@
 package gbank.types;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import gcore.tuples.Pair;
 
 public class User {
 
-	// stores the users accounts as a pair with its account id
-	private ArrayList<Pair<Integer, Account>> accounts = new ArrayList<>();
+	// stores the users accounts as a hashmap to its account id
+	private HashMap<Integer, Account> accounts = new HashMap<>();
 
 	private int nextID = 0;
 
@@ -25,6 +25,46 @@ public class User {
 	public User() {}
 
 	/**
+	 * pushes the next id forward to this id to make sure accounts are created
+	 * in increasing size
+	 * 
+	 * @param id
+	 *            id to update to
+	 * @since May 10, 2017
+	 */
+	private void updateNextID(int id) {
+		nextID = id;
+	}
+
+	/**
+	 * used to get the next account id that hasn't been used
+	 * 
+	 * @return next usable account id
+	 * @since May 10, 2017
+	 */
+	private int getNextID() {
+
+		// keep iterating until the id isn't taken
+		while (idTaken(nextID)) {
+			nextID++;
+		}
+		// once found return the new id
+		return nextID;
+	}
+
+	/**
+	 * checks to see if the id is taken
+	 * 
+	 * @param id
+	 *            id to check
+	 * @return if that id has been taken
+	 * @since May 10, 2017
+	 */
+	private boolean idTaken(int id) {
+		return accounts.containsKey(id);
+	}
+
+	/**
 	 * adds an account and returns the id of the added account.
 	 * 
 	 * @return id of added account
@@ -33,14 +73,33 @@ public class User {
 		// set dirty
 		setDirty();
 
+		// get the id of the account
+		int id = account.getAccountID();
+
+		// if the account doesn't have an id assign it one
+		if (!account.hasAccountIDBeenSet()) {
+			// get the next account id for the account
+			id = getNextID();
+
+			// set the id in the account
+			account.setAccountID(id);
+		} else {
+			// if it has been set update the next id appropriately
+			updateNextID(id);
+		}
+
 		// add account with the current id
-		accounts.add(new Pair<>(nextID, account));
-		
+		accounts.put(id, account);
+
 		// set the user as the owner of the account
 		account.setOwner(this);
 
+		// finalize the account if user is finalized
+		if (finalized)
+			account.finalize();
+
 		// return the id of the account added and increment counter
-		return nextID++;
+		return id;
 	}
 
 	/**
@@ -52,46 +111,25 @@ public class User {
 	 * @since Mar 14, 2017
 	 */
 	public boolean removeAccount(int id) {
-		try {
-			Pair<Integer, Account> results = accounts.stream().filter(a -> a.getFirst().equals(id)).findFirst().get();
+		Account removed = accounts.remove(id);
 
-			// remove the found element from the list of accounts
-			boolean success = accounts.remove(results);
+		// if successful return true and set dirty otherwise return false
+		if (removed != null)
+			setDirty();
 
-			// if successful return true and set dirty otherwise return false
-			if (success)
-				setDirty();
-
-			return success;
-
-		} catch (NoSuchElementException e) {
-			// if nothing found return false
-			return false;
-		}
+		return removed != null;
 	}
 
 	/**
-	 * grabs the account at the specified id, if no account at id returns null
+	 * gets an account by the id of the account
 	 * 
 	 * @param id
-	 *            id of account to retrieve
-	 * @return account at id or null if none
+	 *            id to look up
+	 * @return account with the given id
+	 * @since May 22, 2017
 	 */
 	public Account getAccount(int id) {
-		try {
-			// filters the accounts by accounts that match the id then returns
-			// the first
-			Pair<Integer, Account> results = accounts.stream().filter(a -> a.getFirst().equals(id)).findFirst().get();
-
-			// if no error so far return the results
-			return results.getSecond();
-
-		} catch (NoSuchElementException e) {
-			// if an error was thrown there is no account at that id so return
-			// null
-			return null;
-
-		}
+		return accounts.get(id);
 	}
 
 	/**
@@ -100,7 +138,8 @@ public class User {
 	 * @return a sorted list of accounts of the user sorted by the id
 	 */
 	public List<Pair<Integer, Account>> getAccounts() {
-		return accounts.stream().sorted((a, b) -> a.getFirst().compareTo(b.getFirst())).collect(Collectors.toList());
+		return accounts.keySet().stream().map(a -> new Pair<Integer, Account>(a, accounts.get(a)))
+				.sorted((a, b) -> a.getFirst() - b.getFirst()).collect(Collectors.toList());
 	}
 
 	/**
@@ -108,6 +147,14 @@ public class User {
 	 * drive.
 	 */
 	public void finalize() {
+		// finalize all of the accounts
+		Iterator<Integer> idIterator = accounts.keySet().iterator();
+
+		while (idIterator.hasNext()) {
+			accounts.get(idIterator.next()).finalize();
+		}
+
+		// finalize the user
 		finalized = true;
 	}
 
