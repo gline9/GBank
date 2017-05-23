@@ -124,8 +124,9 @@ public class CreateLoanGui extends JDialog {
 				double withdrawn = accountAgainst.withdraw(principal);
 
 				// put that amount into the account
-				Account account = new LoanAgainstAccount(withdrawn, rate, compoundTime, accountAgainst.getAccountID());
+				LoanAgainstAccount account = new LoanAgainstAccount(withdrawn, rate, compoundTime, accountAgainst.getAccountID());
 				account.setName(name.getText());
+				account.setMaximumOwed(maximumOwed);
 
 				parent.addAccount(account);
 

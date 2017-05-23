@@ -76,9 +76,10 @@ public class LoanAgainstAccount extends Account {
 		double finalDeposit = against.deposit(deposited);
 
 		// if there is a difference withdraw that difference
-		double difference = finalDeposit - deposited;
-		if (difference != 0)
+		double difference = deposited - finalDeposit;
+		if (difference != 0) {
 			super.withdraw(difference);
+		}
 
 		// return the amount that was deposited
 		return finalDeposit;
