@@ -16,18 +16,19 @@ import gbank.gui.elem.DefaultPasswordField;
 import gbank.gui.elem.DefaultTextField;
 import gbank.io.LogIn;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 
 public class LogInGui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
 
 	public LogInGui() {
 		super("Gavin's Banking Software");
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
 
 		// field for the user to input their username
@@ -109,6 +110,16 @@ public class LogInGui extends JFrame {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
+		setLocation(WindowStatics.getMainWindowLocation());
 		setVisible(true);
+	}
+
+	@Override
+	public void dispose() {
+		// save the location of the window
+		WindowStatics.setMainWindowLocation(getLocation());
+		
+		// dispose the window
+		super.dispose();
 	}
 }

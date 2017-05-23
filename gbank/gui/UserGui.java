@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import gbank.io.UserIO;
 import gbank.statics.FileLocations;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.tuples.Pair;
@@ -188,6 +189,7 @@ public class UserGui extends JFrame {
 		add(scrollPane);
 
 		// set the window to visible and pack its components
+		setLocation(WindowStatics.getMainWindowLocation());
 		setResizable(false);
 		setVisible(true);
 		guiEdited();
@@ -249,6 +251,9 @@ public class UserGui extends JFrame {
 	public void dispose() {
 		// stop the repainting routine
 		updateTimer.stop();
+		
+		// save the location of the window
+		WindowStatics.setMainWindowLocation(getLocationOnScreen());
 
 		try {
 			// if the user file has been edited, re-save to the disk.
