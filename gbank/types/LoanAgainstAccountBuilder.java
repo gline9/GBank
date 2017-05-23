@@ -33,6 +33,8 @@ public class LoanAgainstAccountBuilder extends DefaultAccountBuilder {
 
 		// set the name of the account
 		results.setName(name);
+		
+		results.setMaximumOwed(maximumOwed);
 
 		return results;
 	}

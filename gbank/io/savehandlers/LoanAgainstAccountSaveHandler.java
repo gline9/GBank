@@ -6,6 +6,11 @@ import gbank.types.LoanAgainstAccount;
 import gbank.types.LoanAgainstAccountBuilder;
 
 public class LoanAgainstAccountSaveHandler extends DefaultAccountSaveHandler {
+
+	public LoanAgainstAccountSaveHandler() {
+		this(() -> new LoanAgainstAccountBuilder());
+	}
+
 	public LoanAgainstAccountSaveHandler(Supplier<LoanAgainstAccountBuilder> createBuilder) {
 		super(() -> createBuilder.get());
 
@@ -19,7 +24,7 @@ public class LoanAgainstAccountSaveHandler extends DefaultAccountSaveHandler {
 					LoanAgainstAccount accountCast = (LoanAgainstAccount) account;
 					return String.valueOf(accountCast.getMaximumOwed());
 				});
-		
+
 		addHandler("Against_ID",
 				(builder, string) -> {
 					LoanAgainstAccountBuilder builderCast = (LoanAgainstAccountBuilder) builder;

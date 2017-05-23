@@ -113,6 +113,9 @@ public class LoanAgainstAccount extends Account {
 	protected void finalize() {
 		super.finalize();
 		against = getOwner().getAccount(againstID);
+
+		if (against == null)
+			throw new IllegalArgumentException("Invalid account ID for against account");
 	}
 
 }

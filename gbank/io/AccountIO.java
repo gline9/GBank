@@ -1,84 +1,86 @@
 package gbank.io;
 
+import java.util.HashMap;
+
+import gbank.io.savehandlers.AccountSaveHandler;
+import gbank.io.savehandlers.DefaultAccountSaveHandler;
+import gbank.io.savehandlers.LoanAgainstAccountSaveHandler;
 import gbank.types.Account;
-import gfiles.text.xml.XMLInfo;
+import gbank.types.LoanAgainstAccount;
 import gfiles.text.xml.XMLTag;
 
 public final class AccountIO {
 	private AccountIO() {}
 
+	private static final HashMap<Class<? extends Account>, AccountSaveHandler> handlerRegistry = initHandlerRegistry();
+
+	private static final HashMap<Integer, Class<? extends Account>> typeToAccount = initTypeToAccount();
+
+	private static final HashMap<Class<? extends Account>, Integer> accountToType = initAccountToType();
+
+	private static final AccountSaveHandler defaultHandler = new DefaultAccountSaveHandler();
+
+	private static HashMap<Class<? extends Account>, AccountSaveHandler> initHandlerRegistry() {
+		HashMap<Class<? extends Account>, AccountSaveHandler> registry = new HashMap<>();
+
+		// add all of the handlers for the program
+		registry.put(Account.class, new DefaultAccountSaveHandler());
+		registry.put(LoanAgainstAccount.class, new LoanAgainstAccountSaveHandler());
+
+		return registry;
+	}
+
+	private static HashMap<Integer, Class<? extends Account>> initTypeToAccount() {
+		HashMap<Integer, Class<? extends Account>> results = new HashMap<>();
+
+		results.put(0, Account.class);
+		results.put(1, LoanAgainstAccount.class);
+
+		return results;
+	}
+
+	private static HashMap<Class<? extends Account>, Integer> initAccountToType() {
+		HashMap<Class<? extends Account>, Integer> results = new HashMap<>();
+
+		results.put(Account.class, 0);
+		results.put(LoanAgainstAccount.class, 0);
+
+		return results;
+	}
+
 	public static Account loadFromTag(XMLTag tag) {
-		// grab the account id
-		int id = -1;
-		String accountIDString = tag.getAttributesValue("ID");
-		// if the accountID is null don't set the account id
-		if (accountIDString != null){
-			id = Integer.valueOf(accountIDString);
-		}
-		// grab the tags from the account root tag
-		XMLTag principalTag = tag.getFirstTag("Principal");
-		XMLTag rateTag = tag.getFirstTag("Rate");
-		XMLTag compoundRateTag = tag.getFirstTag("Compound_Rate");
-		XMLTag lastCompoundTimeTag = tag.getFirstTag("Last_Compound_Time");
-		XMLTag nameTag = tag.getFirstTag("Name");
 
-		// grab the values from the tags
-		double principal = Double.valueOf(((XMLInfo) principalTag.getElements().get(0)).getInfo());
-		double rate = Double.valueOf(((XMLInfo) rateTag.getElements().get(0)).getInfo());
-		double compoundRate = Double.valueOf(((XMLInfo) compoundRateTag.getElements().get(0)).getInfo());
-		long lastCompoundTime = Long.valueOf(((XMLInfo) lastCompoundTimeTag.getElements().get(0)).getInfo());
-		String name = "";
-		if (nameTag != null) {
-			name = ((XMLInfo) nameTag.getElements().get(0)).getInfo();
+		// grab the type of account to load
+		String accountTypeString = tag.getAttributesValue("TYPE");
+
+		// get the handler for the type of account
+		AccountSaveHandler handler;
+
+		int accountType;
+
+		if (accountTypeString == null || !typeToAccount.containsKey(accountType = Integer.valueOf(accountTypeString))) {
+			handler = defaultHandler;
+		} else {
+			handler = handlerRegistry.get(typeToAccount.get(accountType));
 		}
 
-		// return the account with the given values
-		Account account = new Account(principal, rate, compoundRate, lastCompoundTime);
-		account.setName(name);
-		account.setAccountID(id);
-		return account;
+		// create the account using the handler
+		Account results = handler.loadFromTag(tag);
+
+		return results;
 	}
 
 	public static XMLTag saveToTag(Account account) {
-		// grab the values to save to the tag
-		double principal = account.getBalance();
-		double rate = account.getRate();
-		double compoundRate = account.getCompoundRate();
-		long lastCompoundTime = account.getLastCompoundTime();
-		int id = account.getAccountID();
-		String name = account.getName();
 
-		// create a new empty tag with title Account
-		XMLTag accountTag = new XMLTag("Account");
-		
-		// if the id has been set add it to the tag
-		if (account.hasAccountIDBeenSet()){
-			accountTag.addAttribute("ID", String.valueOf(id));
-		}
+		// grab the handler to use for saving the data
+		AccountSaveHandler handler = handlerRegistry.get(account.getClass());
 
-		// add the values to the tag
-		XMLTag principalTag = new XMLTag("Principal");
-		XMLTag rateTag = new XMLTag("Rate");
-		XMLTag compoundRateTag = new XMLTag("Compound_Rate");
-		XMLTag lastCompoundTimeTag = new XMLTag("Last_Compound_Time");
+		// save the account to a tag
+		XMLTag accountTag = handler.saveToTag(account);
 
-		principalTag.addElement(new XMLInfo(String.valueOf(principal)));
-		rateTag.addElement(new XMLInfo(String.valueOf(rate)));
-		compoundRateTag.addElement(new XMLInfo(String.valueOf(compoundRate)));
-		lastCompoundTimeTag.addElement(new XMLInfo(String.valueOf(lastCompoundTime)));
-		
-		if (!name.equals("")){
-			XMLTag nameTag = new XMLTag("Name");
-			nameTag.addElement(new XMLInfo(name));
-			accountTag.addElement(nameTag);
-		}
+		// set the account type in the tag
+		accountTag.addAttribute("TYPE", String.valueOf(accountToType.get(account.getClass())));
 
-		accountTag.addElement(principalTag);
-		accountTag.addElement(rateTag);
-		accountTag.addElement(compoundRateTag);
-		accountTag.addElement(lastCompoundTimeTag);
-
-		// return the account tag
 		return accountTag;
 	}
 }

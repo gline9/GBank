@@ -18,7 +18,7 @@ public abstract class AccountSaveHandler {
 
 	private final Supplier<AccountBuilder> createBuilder;
 
-	private HashMap<String, Pair<BiConsumer<AccountBuilder, String>, Function<Account, String>>> handlerRegistry;
+	private HashMap<String, Pair<BiConsumer<AccountBuilder, String>, Function<Account, String>>> handlerRegistry = new HashMap<>();
 
 	/**
 	 * needs to accept a supplier for an account builder so it can create

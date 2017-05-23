@@ -61,6 +61,16 @@ public class DefaultAccountSaveHandler extends AccountSaveHandler {
 						return null;
 					return name;
 				});
+		
+		addHandler("ID",
+				(builder, string) -> {
+					DefaultAccountBuilder builderCast = (DefaultAccountBuilder) builder;
+					builderCast.setAccountID(Integer.valueOf(string));
+				},
+				(account) -> {
+					int id = account.getAccountID();
+					return String.valueOf(id);
+				});
 	}
 
 }
