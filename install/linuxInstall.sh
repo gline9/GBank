@@ -11,6 +11,8 @@ mkdir $location/Accounts
 touch $location/Accounts/userLogins.csv
 echo "username, salt, password" > $location/Accounts/userLogins.csv
 
+mkdir $location/Data
+
 #copy over resources to the correct location
 cp -r resources/ $location/resources/
 
