@@ -37,6 +37,8 @@ import gcore.units.TimeUnit;
 public class UserGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int accountHeight = 300;
+	
+	private static final String WINDOW_ID = "User Gui";
 
 	private final User user;
 
@@ -189,7 +191,7 @@ public class UserGui extends JFrame {
 		add(scrollPane);
 
 		// set the window to visible and pack its components
-		setLocation(WindowStatics.getMainWindowLocation());
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setResizable(false);
 		setVisible(true);
 		guiEdited();
@@ -253,7 +255,7 @@ public class UserGui extends JFrame {
 		updateTimer.stop();
 		
 		// save the location of the window
-		WindowStatics.setMainWindowLocation(getLocationOnScreen());
+		WindowStatics.setWindowLocation(getLocationOnScreen(), WINDOW_ID);
 
 		try {
 			// if the user file has been edited, re-save to the disk.

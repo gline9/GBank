@@ -24,6 +24,8 @@ public class LogInGui extends JFrame {
 
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
+	
+	private static final String WINDOW_ID = "Log In";
 
 	public LogInGui() {
 		super("Gavin's Banking Software");
@@ -110,14 +112,14 @@ public class LogInGui extends JFrame {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
-		setLocation(WindowStatics.getMainWindowLocation());
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setVisible(true);
 	}
 
 	@Override
 	public void dispose() {
 		// save the location of the window
-		WindowStatics.setMainWindowLocation(getLocation());
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
 		
 		// dispose the window
 		super.dispose();
