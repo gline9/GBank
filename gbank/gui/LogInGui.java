@@ -25,7 +25,7 @@ public class LogInGui extends JFrame {
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
 	
-	private static final String WINDOW_ID = "Log In";
+	private static final String WINDOW_ID = "Log In Gui";
 
 	public LogInGui() {
 		super("Gavin's Banking Software");

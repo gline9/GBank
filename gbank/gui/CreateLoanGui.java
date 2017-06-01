@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -21,12 +22,13 @@ import gbank.types.User;
 
 public class CreateLoanGui extends JDialog {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String WINDOW_ID = "Create Loan Gui";
 
 	public CreateLoanGui(UserGui parent, User user) {
 		super(parent, "Create Loan", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
 
 		DefaultTextField name = new DefaultTextField(20, "Account Name");
@@ -127,7 +129,8 @@ public class CreateLoanGui extends JDialog {
 				double withdrawn = accountAgainst.withdraw(principal);
 
 				// put that amount into the account
-				LoanAgainstAccount account = new LoanAgainstAccount(withdrawn, rate, compoundTime, accountAgainst.getAccountID());
+				LoanAgainstAccount account = new LoanAgainstAccount(withdrawn, rate, compoundTime,
+						accountAgainst.getAccountID());
 				account.setName(name.getText());
 				account.setMaximumOwed(maximumOwed);
 
@@ -181,7 +184,7 @@ public class CreateLoanGui extends JDialog {
 	public void dispose() {
 		// save the location of the window
 		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
-		
+
 		// dispose the window
 		super.dispose();
 	}

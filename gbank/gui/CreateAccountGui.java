@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import gbank.gui.elem.DefaultTextField;
@@ -23,6 +24,7 @@ public class CreateAccountGui extends JDialog {
 	public CreateAccountGui(UserGui parent) {
 		super(parent, "Create New Account", true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
 
 		DefaultTextField name = new DefaultTextField(20, "Account Name");
@@ -103,12 +105,12 @@ public class CreateAccountGui extends JDialog {
 		setModal(true);
 
 	}
-	
+
 	@Override
 	public void dispose() {
 		// save the location of the window
 		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
-		
+
 		// dispose the window
 		super.dispose();
 	}
