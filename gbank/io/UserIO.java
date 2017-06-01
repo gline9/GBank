@@ -41,16 +41,6 @@ public final class UserIO {
 		// load the decrypted file into an xml document
 		XMLFile xmlFile = new XMLFile(decrypted);
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(xmlFile.getInputStream()));
-		StringBuilder out = new StringBuilder();
-		String line;
-		while ((line = reader.readLine()) != null) {
-			out.append("\n" + line);
-		}
-		System.out.println(out.toString()); // Prints the string content read
-											// from input stream
-		reader.close();
-
 		// parse the xml file
 		XMLFileReader parsed = new XMLFileReader(xmlFile);
 

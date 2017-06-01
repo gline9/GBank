@@ -10,12 +10,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.units.FrequencyUnit;
@@ -24,13 +26,15 @@ import gcore.units.TimeUnit;
 public class TransferGui extends JDialog {
 	private static final long serialVersionUID = 1L;
 
+	private static final String WINDOW_ID = "Transfer Gui";
+
 	private final Object[] accounts;
 
 	private final Timer updateTimer;
-	
+
 	public static final Account deposit = getDeposit();
 	public static final Account withdraw = getWithdraw();
-	
+
 	private static final AccountItem depositItem = new AccountItem(deposit, 0);
 	private static final AccountItem withdrawItem = new AccountItem(withdraw, 0);
 
@@ -46,15 +50,17 @@ public class TransferGui extends JDialog {
 			Account defaultToAccount, boolean toEditable) {
 		super(parent, "Transfer Funds", ModalityType.APPLICATION_MODAL);
 		setIconImage(ImageStatics.getFavicon());
-		accounts = user.getAccounts().stream().map(a -> new AccountItem(a.getSecond(), a.getFirst())).toArray();
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		accounts = user.getAccounts().stream().map(a -> new AccountItem(a.getSecond(), a.getFirst())).toArray();
+
 		// change the color of a disabled combo box
 		UIManager.put("ComboBox.disabledForeground", new Color(0xff808080));
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 		JComboBox<Object> from = new JComboBox<>(accounts);
-		
+
 		// add the deposit account
 		from.addItem(depositItem);
 
@@ -70,7 +76,7 @@ public class TransferGui extends JDialog {
 		add(from);
 
 		JComboBox<Object> to = new JComboBox<>(accounts);
-		
+
 		// add the withdraw account
 		to.addItem(withdrawItem);
 
@@ -135,6 +141,7 @@ public class TransferGui extends JDialog {
 		updateTimer.start();
 
 		pack();
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setResizable(false);
 		setVisible(true);
 	}
@@ -143,6 +150,9 @@ public class TransferGui extends JDialog {
 	public void dispose() {
 
 		updateTimer.stop();
+
+		// save the location of the window
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
 
 		super.dispose();
 	}
@@ -175,15 +185,15 @@ public class TransferGui extends JDialog {
 			return false;
 		}
 	}
-	
+
 	// initializer methods for the deposit and withdraw accounts
-	private static Account getDeposit(){
+	private static Account getDeposit() {
 		Account deposit = new Account(Double.POSITIVE_INFINITY, 0, 1);
 		deposit.setName("Deposit");
 		return deposit;
 	}
-	
-	private static Account getWithdraw(){
+
+	private static Account getWithdraw() {
 		Account withdraw = new Account(Double.NEGATIVE_INFINITY, 0, 1);
 		withdraw.setName("Withdraw");
 		return withdraw;

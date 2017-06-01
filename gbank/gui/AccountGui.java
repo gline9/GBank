@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import gbank.gui.elem.EditableLabel;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.Account;
 import gbank.types.User;
 import gcore.units.FrequencyUnit;
@@ -23,6 +24,8 @@ import gcore.units.TimeUnit;
 
 public class AccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
+
+	private static final String WINDOW_ID = "Account Gui";
 
 	private final JLabel balance;
 	private final JLabel interest;
@@ -131,6 +134,7 @@ public class AccountGui extends JDialog {
 		updateTimer.start();
 
 		pack();
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setResizable(false);
 		setVisible(true);
 	}
@@ -145,6 +149,9 @@ public class AccountGui extends JDialog {
 	public void dispose() {
 		// stop the repaint timer
 		updateTimer.stop();
+
+		// save the location of the window
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
 
 		// dispose the main window
 		super.dispose();

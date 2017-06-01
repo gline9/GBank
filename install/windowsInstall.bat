@@ -8,6 +8,7 @@ set "shortcutlocation= %appdata%\Microsoft\Windows\Start Menu\Programs"
 mkdir "%location%"
 mkdir "%datalocation%"
 mkdir "%datalocation%\Accounts"
+mkdir "%datalocation%\Data"
 
 echo.>"%datalocation%\Accounts\userLogins.csv"
 echo username^, salt^, password 1>"%datalocation%\Accounts\userLogins.csv"
