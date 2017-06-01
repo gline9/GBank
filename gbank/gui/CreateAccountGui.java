@@ -12,10 +12,13 @@ import javax.swing.JOptionPane;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.Account;
 
 public class CreateAccountGui extends JDialog {
 	private static final long serialVersionUID = 1L;
+
+	private static final String WINDOW_ID = "Create Account Gui";
 
 	public CreateAccountGui(UserGui parent) {
 		super(parent, "Create New Account", true);
@@ -94,9 +97,19 @@ public class CreateAccountGui extends JDialog {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setVisible(true);
 		setResizable(false);
 		setModal(true);
 
+	}
+	
+	@Override
+	public void dispose() {
+		// save the location of the window
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
+		
+		// dispose the window
+		super.dispose();
 	}
 }

@@ -20,10 +20,13 @@ import gbank.io.LogIn;
 import gbank.io.UserIO;
 import gbank.statics.FileLocations;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.User;
 
 public class CreateLoginGui extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
+	private static final String WINDOW_ID = "Create Login Gui";
 	
 	private final String usernameDefaultText = "Username";
 	private final String passwordDefaultText = "Password";
@@ -33,7 +36,7 @@ public class CreateLoginGui extends JFrame {
 		super("Create an Account");
 		setVisible(true);
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(ImageStatics.getFavicon());
 
 		// field for the user to input their username
@@ -121,5 +124,16 @@ public class CreateLoginGui extends JFrame {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
+		setVisible(true);
+	}
+
+	@Override
+	public void dispose() {
+		// save the location of the window
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
+		
+		// dispose the window
+		super.dispose();
 	}
 }

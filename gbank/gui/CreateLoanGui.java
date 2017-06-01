@@ -14,12 +14,15 @@ import javax.swing.JOptionPane;
 
 import gbank.gui.elem.DefaultTextField;
 import gbank.statics.ImageStatics;
+import gbank.statics.WindowStatics;
 import gbank.types.Account;
 import gbank.types.LoanAgainstAccount;
 import gbank.types.User;
 
 public class CreateLoanGui extends JDialog {
 	private static final long serialVersionUID = 1L;
+	
+	private static final String WINDOW_ID = "Create Loan Gui";
 
 	public CreateLoanGui(UserGui parent, User user) {
 		super(parent, "Create Loan", true);
@@ -140,6 +143,7 @@ public class CreateLoanGui extends JDialog {
 		getRootPane().setDefaultButton(confirm);
 
 		pack();
+		setLocation(WindowStatics.getWindowLocation(WINDOW_ID));
 		setResizable(false);
 		setVisible(true);
 
@@ -171,5 +175,14 @@ public class CreateLoanGui extends JDialog {
 				return ((AccountItem) obj).account == account;
 			return false;
 		}
+	}
+
+	@Override
+	public void dispose() {
+		// save the location of the window
+		WindowStatics.setWindowLocation(getLocation(), WINDOW_ID);
+		
+		// dispose the window
+		super.dispose();
 	}
 }
