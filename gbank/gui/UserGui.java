@@ -37,7 +37,7 @@ import gcore.units.TimeUnit;
 public class UserGui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int accountHeight = 300;
-	
+
 	private static final String WINDOW_ID = "User Gui";
 
 	private final User user;
@@ -83,6 +83,7 @@ public class UserGui extends JFrame {
 		// add the menu options
 		JMenuBar menu = new JMenuBar();
 
+		// highlights the menu when hovered over
 		MouseListener menuListener = new MouseListener() {
 
 			@Override
@@ -253,7 +254,7 @@ public class UserGui extends JFrame {
 	public void dispose() {
 		// stop the repainting routine
 		updateTimer.stop();
-		
+
 		// save the location of the window
 		WindowStatics.setWindowLocation(getLocationOnScreen(), WINDOW_ID);
 
@@ -279,7 +280,7 @@ public class UserGui extends JFrame {
 
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
-			return new Dimension(AccountPane.Width, accountHeight);
+			return new Dimension(AccountPane.getFullWidth(), accountHeight);
 		}
 
 		@Override

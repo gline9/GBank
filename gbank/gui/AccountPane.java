@@ -39,23 +39,31 @@ public class AccountPane extends JPanel {
 		this.id = id;
 		this.setLayout(new BorderLayout());
 
+		JPanel textPanel = new JPanel();
+		textPanel.setLayout(new BorderLayout());
+		
+		// add the drag button
+		JLabel drag = new JLabel("\u2630");
+		drag.setFont(new Font(drag.getFont().getFontName(), Font.PLAIN, 40));
+		add(drag, BorderLayout.WEST);
+
 		// grab the background color
 		backgroundColor = getBackground();
 
 		setLabels();
-		
+
 		// set the maximum size for id label and amount label
-		idLabel.setPreferredSize(new Dimension(Width/2, Height));
-		
+		idLabel.setPreferredSize(new Dimension(Width / 2, Height));
+
 		// this is so the account pane will always have a definite size
-		this.setPreferredSize(new Dimension(Width, Height));
-		this.setMaximumSize(new Dimension(Width, Height));
+		textPanel.setPreferredSize(new Dimension(Width, Height));
+		textPanel.setMaximumSize(new Dimension(Width, Height));
 
 		idLabel.setFont(new Font(idLabel.getFont().getFontName(), Font.PLAIN, 40));
-		add(idLabel, BorderLayout.WEST);
+		textPanel.add(idLabel, BorderLayout.WEST);
 
 		amountLabel.setFont(new Font(amountLabel.getFont().getFontName(), Font.PLAIN, 40));
-		amountLabel.addComponentListener(new ComponentListener(){
+		amountLabel.addComponentListener(new ComponentListener() {
 
 			@Override
 			public void componentHidden(ComponentEvent arg0) {}
@@ -66,20 +74,23 @@ public class AccountPane extends JPanel {
 			@Override
 			public void componentResized(ComponentEvent event) {
 				// check if the component went past the maximum width
-				if (amountLabel.getWidth() > Width/2){
+				if (amountLabel.getWidth() > Width / 2) {
 					// if so resize to the appropriate width
-					amountLabel.setPreferredSize(new Dimension(Width/2, amountLabel.getHeight()));
+					amountLabel.setPreferredSize(new Dimension(Width / 2, amountLabel.getHeight()));
 				}
 			}
 
 			@Override
 			public void componentShown(ComponentEvent arg0) {}
 		});
-		add(amountLabel, BorderLayout.EAST);
+		textPanel.add(amountLabel, BorderLayout.EAST);
+		
+		// add the text panel
+		add(textPanel, BorderLayout.CENTER);
 
 		// add a mouse listener so we can change color when the mouse hovers
 		// over the account pane
-		addMouseListener(new MouseListener() {
+		textPanel.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -93,7 +104,7 @@ public class AccountPane extends JPanel {
 				isHovering = true;
 
 				// when the mouse enters change the color to the hover color
-				AccountPane.super.setBackground(hoverColor);
+				textPanel.setBackground(hoverColor);
 			}
 
 			@Override
@@ -102,7 +113,7 @@ public class AccountPane extends JPanel {
 				isHovering = false;
 				// when the mouse exists change the color to the background
 				// color
-				AccountPane.super.setBackground(backgroundColor);
+				textPanel.setBackground(backgroundColor);
 			}
 
 			@Override
@@ -111,7 +122,7 @@ public class AccountPane extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
 		});
-		setPreferredSize(new Dimension(Width, Height));
+//		setPreferredSize(new Dimension(Width, Height));
 		setVisible(true);
 	}
 
@@ -161,6 +172,10 @@ public class AccountPane extends JPanel {
 		if (!isHovering) {
 			super.setBackground(color);
 		}
+	}
+	
+	public static int getFullWidth(){
+		return Width + 36;
 	}
 
 }

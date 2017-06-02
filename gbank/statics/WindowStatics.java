@@ -14,8 +14,6 @@ public final class WindowStatics {
 
 	private static HashMap<String, MutablePair<Double, Double>> windowLocationMap = new HashMap<>();
 
-	private static MutablePair<Double, Double> mainWindowLocation = new MutablePair<Double, Double>();
-
 	private static Dimension screenDimensions = getScreenDimensions();
 
 	private static Dimension getScreenDimensions() {
