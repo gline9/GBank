@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.Timer;
 
 import gbank.gui.elem.EditableLabel;
+import gbank.gui.elem.ValueLabel;
 import gbank.statics.ImageStatics;
 import gbank.statics.WindowStatics;
 import gbank.types.Account;
@@ -27,9 +28,9 @@ public class AccountGui extends JDialog {
 
 	private static final String WINDOW_ID = "Account Gui";
 
-	private final JLabel balance;
-	private final JLabel interest;
-	private final JLabel compounds;
+	private final ValueLabel balance;
+	private final ValueLabel interest;
+	private final ValueLabel compounds;
 
 	private final Timer updateTimer;
 
@@ -108,17 +109,17 @@ public class AccountGui extends JDialog {
 		nameLabel.setDoneEditingScript(() -> getRootPane().setDefaultButton(null));
 		add(nameLabel);
 
-		balance = new JLabel();
+		balance = new ValueLabel("Balance:");
 		balance.setFont(new Font(balance.getFont().getFontName(), Font.PLAIN, 40));
 		balance.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(balance);
 
-		interest = new JLabel();
+		interest = new ValueLabel("Interest Rate:");
 		interest.setFont(new Font(interest.getFont().getFontName(), Font.PLAIN, 40));
 		interest.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(interest);
 
-		compounds = new JLabel();
+		compounds = new ValueLabel("Compounds per Year:");
 		compounds.setFont(new Font(compounds.getFont().getFontName(), Font.PLAIN, 40));
 		compounds.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(compounds);
@@ -140,9 +141,9 @@ public class AccountGui extends JDialog {
 	}
 
 	private void setDetails() {
-		balance.setText(String.format("Balance: %s", account.toString()));
-		interest.setText(String.format("Interest Rate: %.2f%%", 100 * account.getRate()));
-		compounds.setText(String.format("Compounds per Year: %.0f", account.getCompoundRate()));
+		balance.setValueText(account.toString());
+		interest.setValueText(String.format("%.2f%%", 100 * account.getRate()));
+		compounds.setValueText(String.format("%.0f", account.getCompoundRate()));
 	}
 
 	@Override
